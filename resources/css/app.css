@@ -1,0 +1,69 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../views/**/*.blade.php';
+@source '../../app/Modules/**/*.blade.php';
+
+@theme {
+    --font-sans: 'IBM Plex Sans Arabic', 'Tajawal', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-display: 'Tajawal', 'IBM Plex Sans Arabic', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+    /* Beforbim Official Brand Palette */
+    --color-navy: #071A36;
+    --color-navy-dark: #040E1E;
+    --color-navy-light: #0D264C;
+    --color-eng-blue: #123B68;
+    --color-eng-blue-light: #1A4E88;
+    --color-gold: #D4AF37;
+    --color-gold-light: #F3D98B;
+    --color-gold-dark: #B38F24;
+    --color-soft-gray: #F5F7FA;
+    --color-surface-card: #FFFFFF;
+
+    /* Functional Status Accents */
+    --color-accent-emerald: #10B981;
+    --color-accent-amber: #F59E0B;
+    --color-accent-rose: #EF4444;
+    --color-accent-blue: #2563EB;
+}
+
+/* Engineering Blueprint & Architectural Grid Backgrounds */
+.bg-blueprint-grid {
+    background-size: 28px 28px;
+    background-image: 
+        linear-gradient(to right, rgba(212, 175, 55, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(212, 175, 55, 0.08) 1px, transparent 1px);
+}
+
+.bg-blueprint-navy {
+    background-color: #071A36;
+    background-size: 32px 32px;
+    background-image: 
+        linear-gradient(to right, rgba(18, 59, 104, 0.45) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(18, 59, 104, 0.45) 1px, transparent 1px);
+}
+
+/* Gold Gradient Utilities */
+.bg-gradient-gold {
+    background: linear-gradient(135deg, #F3D98B 0%, #D4AF37 50%, #B38F24 100%);
+}
+
+.text-gradient-gold {
+    background: linear-gradient(135deg, #F3D98B 0%, #D4AF37 50%, #B38F24 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.border-gold-glow {
+    border-color: rgba(212, 175, 55, 0.4);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+}
+
+.navy-glass {
+    background: rgba(7, 26, 54, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(18, 59, 104, 0.6);
+}
