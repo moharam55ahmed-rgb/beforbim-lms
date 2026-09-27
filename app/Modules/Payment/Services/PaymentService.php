@@ -19,7 +19,7 @@ class PaymentService
 {
     public function __construct(
         protected EnrollmentService $enrollmentService,
-        protected PaymentGatewayManager $gatewayManager = new PaymentGatewayManager()
+        protected PaymentGatewayManager $gatewayManager = new PaymentGatewayManager
     ) {}
 
     /**
@@ -56,9 +56,10 @@ class PaymentService
 
         if (($result['status'] ?? '') === 'COMPLETED') {
             $payment = $this->createPayment($order, $method, $gatewayName);
+
             return $this->processDirectPaymentSuccess(
                 $payment,
-                $result['transaction_reference'] ?? 'TXN-' . Str::random(10),
+                $result['transaction_reference'] ?? 'TXN-'.Str::random(10),
                 $result['gateway_payload'] ?? []
             );
         }
@@ -169,7 +170,7 @@ class PaymentService
         return DB::transaction(function () use ($payment, $admin, $notes) {
             $gateway = $this->gateway($payment->gateway ?: 'bank_transfer');
             $verifyResult = $gateway->verify($payment, ['notes' => $notes, 'admin_id' => $admin->id]);
-            $reference = $verifyResult['transaction_reference'] ?? ('MANUAL-BANK-' . strtoupper(Str::random(8)));
+            $reference = $verifyResult['transaction_reference'] ?? ('MANUAL-BANK-'.strtoupper(Str::random(8)));
 
             $payment->update([
                 'status' => 'COMPLETED',
@@ -222,7 +223,7 @@ class PaymentService
                 'status' => 'FAILED',
                 'verified_by_user_id' => $admin->id,
                 'verified_at' => now(),
-                'verification_notes' => 'مرفوض: ' . $reason,
+                'verification_notes' => 'مرفوض: '.$reason,
             ]);
 
             $payment->order->update(['status' => 'FAILED']);
@@ -253,7 +254,7 @@ class PaymentService
             $gateway = $this->gateway($payment->gateway);
             $refundResult = $gateway->refund($payment, $refundAmount, $reason);
 
-            $refundRef = $refundResult['refund_reference'] ?? ('REFUND-' . strtoupper(Str::random(10)));
+            $refundRef = $refundResult['refund_reference'] ?? ('REFUND-'.strtoupper(Str::random(10)));
 
             // Record REFUND transaction
             $payment->transactions()->create([

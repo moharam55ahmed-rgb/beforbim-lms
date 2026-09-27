@@ -36,6 +36,7 @@ class CartController extends Controller
 
         try {
             $this->cartService->addItem($cart, $course);
+
             return redirect()->route('cart.index')->with('success', "تمت إضافة '{$course->title_ar}' إلى سلة المشتريات.");
         } catch (RuntimeException $e) {
             return back()->with('error', $e->getMessage());

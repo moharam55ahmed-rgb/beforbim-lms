@@ -5,22 +5,28 @@
 @source '../views/**/*.blade.php';
 @source '../../app/Modules/**/*.blade.php';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-    --font-sans: 'IBM Plex Sans Arabic', 'Tajawal', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-display: 'Tajawal', 'IBM Plex Sans Arabic', sans-serif;
+    --font-sans: 'Plus Jakarta Sans', 'Inter', 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+    --font-arabic: 'IBM Plex Sans Arabic', 'Tajawal', sans-serif;
     --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
-    /* Beforbim Official Brand Palette */
+    /* Beforbim Official Engineering Brand Palette */
     --color-navy: #071A36;
     --color-navy-dark: #040E1E;
+    --color-navy-deep: #020712;
     --color-navy-light: #0D264C;
     --color-eng-blue: #123B68;
     --color-eng-blue-light: #1A4E88;
     --color-gold: #D4AF37;
     --color-gold-light: #F3D98B;
     --color-gold-dark: #B38F24;
+    --color-gold-muted: rgba(212, 175, 55, 0.15);
+    --color-cyan-glow: #00F0FF;
     --color-soft-gray: #F5F7FA;
-    --color-surface-card: #FFFFFF;
+    --color-surface-card: #0A1E3B;
 
     /* Functional Status Accents */
     --color-accent-emerald: #10B981;
@@ -29,41 +35,110 @@
     --color-accent-blue: #2563EB;
 }
 
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
 /* Engineering Blueprint & Architectural Grid Backgrounds */
 .bg-blueprint-grid {
-    background-size: 28px 28px;
+    background-size: 32px 32px;
     background-image: 
-        linear-gradient(to right, rgba(212, 175, 55, 0.08) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(212, 175, 55, 0.08) 1px, transparent 1px);
+        linear-gradient(to right, rgba(212, 175, 55, 0.07) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(212, 175, 55, 0.07) 1px, transparent 1px);
 }
 
 .bg-blueprint-navy {
-    background-color: #071A36;
-    background-size: 32px 32px;
+    background-color: #040E1E;
+    background-size: 36px 36px;
     background-image: 
-        linear-gradient(to right, rgba(18, 59, 104, 0.45) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(18, 59, 104, 0.45) 1px, transparent 1px);
+        linear-gradient(to right, rgba(18, 59, 104, 0.35) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(18, 59, 104, 0.35) 1px, transparent 1px);
 }
 
-/* Gold Gradient Utilities */
+.bg-dots-pattern {
+    background-size: 24px 24px;
+    background-image: radial-gradient(circle, rgba(212, 175, 55, 0.15) 1px, transparent 1px);
+}
+
+/* Gold & Cyan Gradient Utilities */
 .bg-gradient-gold {
     background: linear-gradient(135deg, #F3D98B 0%, #D4AF37 50%, #B38F24 100%);
 }
 
 .text-gradient-gold {
-    background: linear-gradient(135deg, #F3D98B 0%, #D4AF37 50%, #B38F24 100%);
+    background: linear-gradient(135deg, #FFF0C2 0%, #F3D98B 30%, #D4AF37 70%, #B38F24 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
+.text-gradient-cyan-gold {
+    background: linear-gradient(135deg, #00F0FF 0%, #38BDF8 40%, #F3D98B 80%, #D4AF37 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Glow Borders & Glass Panels */
 .border-gold-glow {
     border-color: rgba(212, 175, 55, 0.4);
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.12);
+}
+
+.border-cyan-glow {
+    border-color: rgba(0, 240, 255, 0.35);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
 }
 
 .navy-glass {
-    background: rgba(7, 26, 54, 0.85);
+    background: rgba(7, 26, 54, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(18, 59, 104, 0.6);
+}
+
+.glass-card {
+    background: rgba(10, 30, 59, 0.65);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(18, 59, 104, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card-hover {
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-hover:hover {
+    transform: translateY(-4px);
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.2);
+}
+
+/* Animations */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse-glow {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.animate-float {
+    animation: float 5s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.shimmer-effect {
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(212,175,55,0.15) 50%, rgba(255,255,255,0) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 3s infinite;
 }

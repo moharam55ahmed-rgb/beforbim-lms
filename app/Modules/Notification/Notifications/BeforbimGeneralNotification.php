@@ -40,7 +40,7 @@ class BeforbimGeneralNotification extends Notification
     {
         $mail = (new MailMessage)
             ->subject($this->title)
-            ->greeting('مرحباً ' . $notifiable->name)
+            ->greeting('مرحباً '.$notifiable->name)
             ->line($this->message);
 
         if ($this->actionUrl) {

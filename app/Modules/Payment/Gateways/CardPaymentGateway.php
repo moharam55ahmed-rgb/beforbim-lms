@@ -14,7 +14,7 @@ class CardPaymentGateway implements PaymentGatewayInterface
      */
     public function pay(Order $order, array $payload = []): array
     {
-        $reference = 'CARD-' . strtoupper(Str::random(12));
+        $reference = 'CARD-'.strtoupper(Str::random(12));
 
         return [
             'success' => true,
@@ -49,7 +49,7 @@ class CardPaymentGateway implements PaymentGatewayInterface
     public function refund(Payment $payment, ?float $amount = null, ?string $reason = null): array
     {
         $refundAmount = $amount ?? (float) $payment->amount;
-        $reference = 'REFUND-CARD-' . strtoupper(Str::random(10));
+        $reference = 'REFUND-CARD-'.strtoupper(Str::random(10));
 
         return [
             'success' => true,

@@ -34,7 +34,7 @@ class SupportTicket extends Model
     {
         static::creating(function (SupportTicket $ticket) {
             if (empty($ticket->ticket_number)) {
-                $ticket->ticket_number = 'TCK-' . date('Y') . '-' . strtoupper(Str::random(6));
+                $ticket->ticket_number = 'TCK-'.date('Y').'-'.strtoupper(Str::random(6));
             }
         });
     }

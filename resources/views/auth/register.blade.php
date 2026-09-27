@@ -1,23 +1,23 @@
-<x-layouts.guest title="إنشاء حساب مهندس متدرب — Beforbim">
-    <div class="mb-6 text-center">
-        <h2 class="text-xl font-bold text-slate-900 font-['Tajawal']">انضم إلى مجتمع مهندسي الـ BIM</h2>
-        <p class="text-xs text-slate-500 mt-1">ابدأ مسارك الاحترافي في نمذجة وتنسيق المشروعات الهندسية</p>
+<x-layouts.guest title="Student Registration — Beforbim Academy">
+    <div class="mb-6 text-center space-y-1">
+        <h2 class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-['Outfit']">Join the BIM Community</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-400">Start your certified ISO 19650 learning tracks and computational modeling</p>
     </div>
 
     <form method="POST" action="{{ route('register.store') }}" class="space-y-4">
         @csrf
 
         <x-input
-            label="الاسم الكامل"
+            label="Full Name"
             name="name"
             value="{{ old('name') }}"
-            placeholder="م. محمد علي"
+            placeholder="Eng. Ahmed Mohamed"
             required
             autofocus
         />
 
         <x-input
-            label="البريد الإلكتروني المهني"
+            label="Work / Academic Email"
             name="email"
             type="email"
             value="{{ old('email') }}"
@@ -27,47 +27,47 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <x-input
-                label="رقم الجوال (اختياري)"
+                label="Mobile Phone (Optional)"
                 name="phone"
                 value="{{ old('phone') }}"
-                placeholder="+966 50 000 0000"
+                placeholder="+20 10 0000 0000"
             />
 
             <x-input
-                label="التخصص الهندسي"
+                label="Engineering Discipline"
                 name="engineering_title"
                 value="{{ old('engineering_title') }}"
-                placeholder="مهندس مدني / معماري"
+                placeholder="Architectural / Structural / MEP"
             />
         </div>
 
         <x-input
-            label="كلمة المرور"
+            label="Password"
             name="password"
             type="password"
-            placeholder="8 خانات على الأقل"
+            placeholder="Minimum 8 characters"
             required
         />
 
         <x-input
-            label="تأكيد كلمة المرور"
+            label="Confirm Password"
             name="password_confirmation"
             type="password"
-            placeholder="أعد إدخال كلمة المرور"
+            placeholder="Re-enter password"
             required
         />
 
         <div class="pt-2">
-            <x-button type="submit" variant="cyan" class="w-full">
-                تسجيل الحساب والبدء الآن
+            <x-button type="submit" variant="gold" class="w-full py-3 shadow-lg shadow-[#D4AF37]/20">
+                Register & Start Learning
             </x-button>
         </div>
     </form>
 
-    <div class="mt-6 pt-6 border-t border-slate-100 text-center text-xs text-slate-600">
-        لديك حساب بالفعل؟
-        <a href="{{ route('login') }}" class="text-blue-600 font-semibold hover:text-blue-700 ms-1">
-            تسجيل الدخول
+    <div class="mt-6 pt-6 border-t border-slate-100 dark:border-white/10 text-center text-xs text-slate-600 dark:text-slate-400">
+        Already have an account?
+        <a href="{{ route('login') }}" class="text-[#B38F24] dark:text-[#F3D98B] font-bold hover:underline ms-1">
+            Sign In &rarr;
         </a>
     </div>
 </x-layouts.guest>

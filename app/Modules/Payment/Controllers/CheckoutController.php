@@ -69,7 +69,7 @@ class CheckoutController extends Controller
             $payment = $this->paymentService->createPayment($order, $validated['payment_method'], 'stripe');
             $this->paymentService->processDirectPaymentSuccess(
                 $payment,
-                'TXN-' . strtoupper(Str::random(10)),
+                'TXN-'.strtoupper(Str::random(10)),
                 ['provider' => 'Stripe Gateway Mock']
             );
 

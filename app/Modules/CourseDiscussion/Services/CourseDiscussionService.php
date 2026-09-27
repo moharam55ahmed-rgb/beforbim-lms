@@ -8,13 +8,12 @@ use App\Modules\Course\Services\CourseAccessService;
 use App\Modules\CourseDiscussion\Models\CourseDiscussion;
 use App\Modules\Lesson\Models\Lesson;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Validation\ValidationException;
 use InvalidArgumentException;
 
 class CourseDiscussionService
 {
     public function __construct(
-        protected CourseAccessService $accessService = new CourseAccessService()
+        protected CourseAccessService $accessService = new CourseAccessService
     ) {}
 
     /**

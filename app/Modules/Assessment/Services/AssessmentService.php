@@ -16,8 +16,8 @@ use InvalidArgumentException;
 class AssessmentService
 {
     public function __construct(
-        protected CourseAccessService $accessService = new CourseAccessService(),
-        protected ExamSecurityService $securityService = new ExamSecurityService(),
+        protected CourseAccessService $accessService = new CourseAccessService,
+        protected ExamSecurityService $securityService = new ExamSecurityService,
         protected ?CourseCompletionService $completionService = null
     ) {}
 
@@ -105,8 +105,7 @@ class AssessmentService
     /**
      * Submit an assessment attempt and run the automated grading engine.
      *
-     * @param AssessmentAttempt $attempt
-     * @param array<int, mixed> $answers Key: question_id, Value: selected option id or text
+     * @param  array<int, mixed>  $answers  Key: question_id, Value: selected option id or text
      */
     public function submitAttempt(AssessmentAttempt $attempt, array $answers = []): AssessmentAttempt
     {
@@ -189,6 +188,7 @@ class AssessmentService
                     }
                 }
             }
+
             return false;
         }
 

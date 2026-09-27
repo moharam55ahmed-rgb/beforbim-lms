@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Middleware\EnforceSingleDeviceSession;
+use App\Http\Middleware\EnsureAccountIsActive;
+use App\Http\Middleware\EnsureUserHasPermission;
+use App\Http\Middleware\EnsureUserHasRole;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -13,15 +17,15 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'role' => \App\Http\Middleware\EnsureUserHasRole::class,
-            'permission' => \App\Http\Middleware\EnsureUserHasPermission::class,
-            'single.device' => \App\Http\Middleware\EnforceSingleDeviceSession::class,
-            'active.account' => \App\Http\Middleware\EnsureAccountIsActive::class,
+            'role' => EnsureUserHasRole::class,
+            'permission' => EnsureUserHasPermission::class,
+            'single.device' => EnforceSingleDeviceSession::class,
+            'active.account' => EnsureAccountIsActive::class,
         ]);
 
         $middleware->web(append: [
-            \App\Http\Middleware\EnsureAccountIsActive::class,
-            \App\Http\Middleware\EnforceSingleDeviceSession::class,
+            EnsureAccountIsActive::class,
+            EnforceSingleDeviceSession::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

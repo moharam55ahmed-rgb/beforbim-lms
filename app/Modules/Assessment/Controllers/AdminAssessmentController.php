@@ -47,10 +47,10 @@ class AdminAssessmentController extends Controller
         }
 
         if ($request->filled('search')) {
-            $search = '%' . $request->search . '%';
+            $search = '%'.$request->search.'%';
             $query->where(function ($q) use ($search) {
                 $q->where('question_text_ar', 'like', $search)
-                  ->orWhere('question_text_en', 'like', $search);
+                    ->orWhere('question_text_en', 'like', $search);
             });
         }
 
@@ -136,12 +136,12 @@ class AdminAssessmentController extends Controller
         }
 
         if ($request->filled('search')) {
-            $search = '%' . $request->search . '%';
+            $search = '%'.$request->search.'%';
             $query->where(function ($q) use ($search) {
                 $q->where('certificate_number', 'like', $search)
-                  ->orWhere('verification_code', 'like', $search)
-                  ->orWhere('student_name_snapshot', 'like', $search)
-                  ->orWhere('course_title_snapshot_ar', 'like', $search);
+                    ->orWhere('verification_code', 'like', $search)
+                    ->orWhere('student_name_snapshot', 'like', $search)
+                    ->orWhere('course_title_snapshot_ar', 'like', $search);
             });
         }
 

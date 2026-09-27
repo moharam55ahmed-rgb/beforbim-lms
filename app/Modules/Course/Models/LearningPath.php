@@ -22,7 +22,7 @@ class LearningPath extends Model
     {
         static::creating(function (LearningPath $path) {
             if (empty($path->slug)) {
-                $path->slug = Str::slug($path->title) . '-' . Str::random(5);
+                $path->slug = Str::slug($path->title).'-'.Str::random(5);
             }
         });
     }

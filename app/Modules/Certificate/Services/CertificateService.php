@@ -8,7 +8,6 @@ use App\Modules\Certificate\Models\Certificate;
 use App\Modules\Course\Models\Course;
 use App\Modules\Enrollment\Models\Enrollment;
 use Illuminate\Support\Str;
-use InvalidArgumentException;
 
 class CertificateService
 {
@@ -31,7 +30,7 @@ class CertificateService
             ->first();
 
         $verificationCode = strtoupper(Str::random(12));
-        $certNumber = 'BFB-CERT-' . date('Y') . '-' . strtoupper(Str::random(8));
+        $certNumber = 'BFB-CERT-'.date('Y').'-'.strtoupper(Str::random(8));
 
         $certificate = Certificate::create([
             'uuid' => (string) Str::uuid(),
@@ -48,7 +47,7 @@ class CertificateService
             'issued_at' => now(),
             'status' => 'active',
             'is_revoked' => false,
-            'qr_verification_url' => config('app.url') . '/verify/' . $verificationCode,
+            'qr_verification_url' => config('app.url').'/verify/'.$verificationCode,
         ]);
 
         AuditLog::log(

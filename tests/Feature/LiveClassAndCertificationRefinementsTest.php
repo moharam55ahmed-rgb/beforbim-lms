@@ -32,10 +32,15 @@ class LiveClassAndCertificationRefinementsTest extends TestCase
     use RefreshDatabase;
 
     protected User $student;
+
     protected User $instructor;
+
     protected User $admin;
+
     protected Course $course;
+
     protected CourseSection $section;
+
     protected Lesson $lesson;
 
     protected function setUp(): void
@@ -58,7 +63,7 @@ class LiveClassAndCertificationRefinementsTest extends TestCase
         $category = Category::create([
             'name_ar' => 'نمذجة BIM هندسية',
             'name_en' => 'BIM Engineering',
-            'slug' => 'bim-eng-' . uniqid(),
+            'slug' => 'bim-eng-'.uniqid(),
             'is_active' => true,
         ]);
 
@@ -67,7 +72,7 @@ class LiveClassAndCertificationRefinementsTest extends TestCase
             'category_id' => $category->id,
             'title_ar' => 'ماجستير نمذجة معلومات البناء Revit + Navisworks',
             'title_en' => 'BIM Master: Revit + Navisworks',
-            'slug' => 'bim-master-' . uniqid(),
+            'slug' => 'bim-master-'.uniqid(),
             'price' => 2500.00,
             'currency' => 'SAR',
             'status' => 'APPROVED',
@@ -110,7 +115,7 @@ class LiveClassAndCertificationRefinementsTest extends TestCase
 
         $enrollment = Enrollment::create([
             'user_id' => $this->student->id,
-            'enrollable_type' => \App\Modules\Course\Models\Course::class,
+            'enrollable_type' => Course::class,
             'enrollable_id' => $this->course->id,
             'course_id' => $this->course->id,
             'status' => 'ACTIVE',
@@ -154,7 +159,7 @@ class LiveClassAndCertificationRefinementsTest extends TestCase
     {
         $enrollment = Enrollment::create([
             'user_id' => $this->student->id,
-            'enrollable_type' => \App\Modules\Course\Models\Course::class,
+            'enrollable_type' => Course::class,
             'enrollable_id' => $this->course->id,
             'course_id' => $this->course->id,
             'status' => 'ACTIVE',
@@ -172,7 +177,7 @@ class LiveClassAndCertificationRefinementsTest extends TestCase
             'grade_percentage' => 88.00,
         ]);
 
-        $service = new CertificatePdfService();
+        $service = new CertificatePdfService;
         $pdf = $service->generate($cert);
 
         $this->assertNotEmpty($pdf);
@@ -185,7 +190,7 @@ class LiveClassAndCertificationRefinementsTest extends TestCase
     {
         $enrollment = Enrollment::create([
             'user_id' => $this->student->id,
-            'enrollable_type' => \App\Modules\Course\Models\Course::class,
+            'enrollable_type' => Course::class,
             'enrollable_id' => $this->course->id,
             'course_id' => $this->course->id,
             'status' => 'ACTIVE',
@@ -203,7 +208,7 @@ class LiveClassAndCertificationRefinementsTest extends TestCase
             'grade_percentage' => 95.00,
         ]);
 
-        $service = new CertificatePdfService();
+        $service = new CertificatePdfService;
         $response = $service->download($cert);
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -253,7 +258,7 @@ class LiveClassAndCertificationRefinementsTest extends TestCase
 
         Enrollment::create([
             'user_id' => $this->student->id,
-            'enrollable_type' => \App\Modules\Course\Models\Course::class,
+            'enrollable_type' => Course::class,
             'enrollable_id' => $this->course->id,
             'course_id' => $this->course->id,
             'status' => 'ACTIVE',
@@ -270,7 +275,7 @@ class LiveClassAndCertificationRefinementsTest extends TestCase
             'submitted_at' => now(),
         ]);
 
-        $service = new AssignmentService();
+        $service = new AssignmentService;
         $graded = $service->gradeSubmissionWithRubrics(
             $submission,
             $this->instructor,
@@ -338,7 +343,7 @@ class LiveClassAndCertificationRefinementsTest extends TestCase
 
     public function test_zoom_provider_creates_meeting_with_required_fields(): void
     {
-        $provider = new ZoomMeetingProvider();
+        $provider = new ZoomMeetingProvider;
         $result = $provider->createMeeting([
             'topic' => 'Beforbim - Revit Advanced Workshop',
             'start_time' => now()->addDay()->toIso8601String(),
@@ -353,7 +358,7 @@ class LiveClassAndCertificationRefinementsTest extends TestCase
 
     public function test_google_meet_provider_creates_meeting_with_valid_code(): void
     {
-        $provider = new GoogleMeetProvider();
+        $provider = new GoogleMeetProvider;
         $result = $provider->createMeeting([
             'topic' => 'BIM Coordination Live',
             'start_time' => now()->addDay()->toIso8601String(),
@@ -368,7 +373,7 @@ class LiveClassAndCertificationRefinementsTest extends TestCase
 
     public function test_live_class_provider_manager_resolves_correct_drivers(): void
     {
-        $manager = new LiveClassProviderManager();
+        $manager = new LiveClassProviderManager;
 
         $zoom = $manager->driver('ZOOM');
         $this->assertInstanceOf(ZoomMeetingProvider::class, $zoom);
@@ -379,7 +384,7 @@ class LiveClassAndCertificationRefinementsTest extends TestCase
 
     public function test_live_class_provider_manager_throws_for_unknown_driver(): void
     {
-        $manager = new LiveClassProviderManager();
+        $manager = new LiveClassProviderManager;
 
         $this->expectException(\InvalidArgumentException::class);
         $manager->driver('MICROSOFT_TEAMS');
@@ -415,7 +420,7 @@ class LiveClassAndCertificationRefinementsTest extends TestCase
     {
         Enrollment::create([
             'user_id' => $this->student->id,
-            'enrollable_type' => \App\Modules\Course\Models\Course::class,
+            'enrollable_type' => Course::class,
             'enrollable_id' => $this->course->id,
             'course_id' => $this->course->id,
             'status' => 'ACTIVE',

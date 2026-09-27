@@ -7,7 +7,6 @@ use App\Modules\AuditLog\Models\AuditLog;
 use App\Modules\Cart\Models\Cart;
 use App\Modules\Course\Models\Course;
 use App\Modules\Order\Models\Order;
-use App\Modules\Order\Models\OrderItem;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -33,7 +32,7 @@ class OrderService
             $currency = $cart->items->first()?->course?->currency ?? 'USD';
 
             $order = Order::create([
-                'order_number' => 'ORD-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
+                'order_number' => 'ORD-'.date('Ymd').'-'.strtoupper(Str::random(6)),
                 'user_id' => $user->id,
                 'subtotal' => $subtotal,
                 'discount_amount' => $discount,

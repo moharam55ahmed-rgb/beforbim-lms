@@ -19,8 +19,11 @@ class CourseManagementAndCurriculumTest extends TestCase
     use DatabaseTransactions;
 
     protected User $instructor;
+
     protected User $admin;
+
     protected User $student;
+
     protected Category $category;
 
     protected function setUp(): void

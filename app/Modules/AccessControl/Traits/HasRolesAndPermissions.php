@@ -2,7 +2,6 @@
 
 namespace App\Modules\AccessControl\Traits;
 
-use App\Modules\AccessControl\Models\Permission;
 use App\Modules\AccessControl\Models\Role;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -20,6 +19,11 @@ trait HasRolesAndPermissions
         return $this->roles->contains(function (Role $role) use ($roles) {
             return in_array($role->name, $roles, true);
         });
+    }
+
+    public function hasAnyRole(string|array $roles): bool
+    {
+        return $this->hasRole($roles);
     }
 
     public function assignRole(string|Role $role): void

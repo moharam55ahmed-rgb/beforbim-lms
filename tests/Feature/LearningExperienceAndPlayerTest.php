@@ -14,7 +14,6 @@ use App\Modules\Lesson\Models\Lesson;
 use App\Modules\Media\Models\LessonContent;
 use App\Modules\Media\Models\LessonResource;
 use App\Modules\Media\Services\MediaSecurityService;
-use App\Modules\Progress\Services\LessonProgressService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -23,15 +22,25 @@ class LearningExperienceAndPlayerTest extends TestCase
     use RefreshDatabase;
 
     protected User $student;
+
     protected User $otherStudent;
+
     protected User $instructor;
+
     protected User $admin;
+
     protected Course $course;
+
     protected CourseSection $section1;
+
     protected CourseSection $section2;
+
     protected Lesson $previewLesson;
+
     protected Lesson $privateVideoLesson;
+
     protected Lesson $privateTextLesson;
+
     protected LessonResource $resource;
 
     protected function setUp(): void
@@ -57,7 +66,7 @@ class LearningExperienceAndPlayerTest extends TestCase
         $category = Category::create([
             'name_ar' => 'هندسة مدنية وإنشائية',
             'name_en' => 'Civil & Structural Engineering',
-            'slug' => 'civil-structural-' . uniqid(),
+            'slug' => 'civil-structural-'.uniqid(),
             'is_active' => true,
         ]);
 
@@ -66,7 +75,7 @@ class LearningExperienceAndPlayerTest extends TestCase
             'category_id' => $category->id,
             'title_ar' => 'دبلومة التصميم الإنشائي ونمذجة الـ BIM',
             'title_en' => 'Structural Design & BIM Diploma',
-            'slug' => 'structural-bim-diploma-' . uniqid(),
+            'slug' => 'structural-bim-diploma-'.uniqid(),
             'price' => 1200.00,
             'currency' => 'SAR',
             'status' => 'APPROVED',
@@ -296,7 +305,7 @@ class LearningExperienceAndPlayerTest extends TestCase
         $content = $this->previewLesson->contents()->first();
 
         // 1. Generate valid token
-        $validToken = hash_hmac('sha256', "media-{$content->id}-user-{$this->student->id}-" . now()->format('YmdH'), config('app.key'));
+        $validToken = hash_hmac('sha256', "media-{$content->id}-user-{$this->student->id}-".now()->format('YmdH'), config('app.key'));
         $this->assertTrue($securityService->validateMediaToken($validToken, $content->id, $this->student->id));
 
         // 2. Reject forged/invalid token

@@ -62,6 +62,6 @@ class MediaFile extends Model
             $bytes /= 1024;
         }
 
-        return round($bytes, 2) . ' ' . ($units[$i] ?? 'B');
+        return round($bytes, 2).' '.($units[$i] ?? 'B');
     }
 }

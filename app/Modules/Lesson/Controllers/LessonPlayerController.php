@@ -168,7 +168,7 @@ class LessonPlayerController extends Controller
 
         // Graceful stream/fallback download
         return response()->streamDownload(function () use ($resource) {
-            echo "Beforbim Engineering Resource: " . ($resource->title_ar ?: $resource->title_en);
+            echo 'Beforbim Engineering Resource: '.($resource->title_ar ?: $resource->title_en);
         }, $resource->file_name, [
             'Content-Type' => $resource->mime_type ?: 'application/octet-stream',
         ]);
@@ -187,7 +187,7 @@ class LessonPlayerController extends Controller
         }
 
         return response()->json([
-            'stream_url' => $content->video_hls_url ?: 'https://video.beforbim.com/stream/' . $content->video_asset_id,
+            'stream_url' => $content->video_hls_url ?: 'https://video.beforbim.com/stream/'.$content->video_asset_id,
             'provider' => $content->video_provider ?: 'beforbim_secure_player',
         ]);
     }

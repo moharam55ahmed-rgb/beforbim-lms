@@ -15,7 +15,7 @@ use Illuminate\Support\Collection;
 class InstructorDashboardService
 {
     public function __construct(
-        protected CourseAnalyticsService $analyticsService = new CourseAnalyticsService()
+        protected CourseAnalyticsService $analyticsService = new CourseAnalyticsService
     ) {}
 
     /**

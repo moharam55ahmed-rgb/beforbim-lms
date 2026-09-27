@@ -45,6 +45,25 @@ class CourseController extends Controller
     }
 
     /**
+     * Display the course details page.
+     */
+    public function show(Course $course): View
+    {
+        $course->load([
+            'instructor.instructorProfile',
+            'category',
+            'sections.lessons',
+            'requirements',
+            'approvedReviews.student',
+            'announcements' => function ($q) {
+                $q->take(3);
+            },
+        ]);
+
+        return view('courses.show', compact('course'));
+    }
+
+    /**
      * Show the form for creating a new course.
      */
     public function create(): View

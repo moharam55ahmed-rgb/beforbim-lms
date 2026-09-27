@@ -38,14 +38,14 @@ class ModuleServiceProvider extends ServiceProvider
             }
 
             // Register Web Routes
-            $webRouteFile = $modulePath . '/Routes/web.php';
+            $webRouteFile = $modulePath.'/Routes/web.php';
             if (File::exists($webRouteFile)) {
                 Route::middleware('web')
                     ->group($webRouteFile);
             }
 
             // Register API Routes
-            $apiRouteFile = $modulePath . '/Routes/api.php';
+            $apiRouteFile = $modulePath.'/Routes/api.php';
             if (File::exists($apiRouteFile)) {
                 Route::middleware('api')
                     ->prefix('api')

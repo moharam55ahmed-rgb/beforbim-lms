@@ -39,7 +39,7 @@ class AdminPaymentController extends Controller
 
         $this->paymentService->adminVerifyPayment($payment, $request->user(), $validated['notes'] ?? null);
 
-        return back()->with('success', "تم تأكيد التحويل المالي وتفعيل اشتراك الطالب بنجاح.");
+        return back()->with('success', 'تم تأكيد التحويل المالي وتفعيل اشتراك الطالب بنجاح.');
     }
 
     /**
@@ -53,6 +53,6 @@ class AdminPaymentController extends Controller
 
         $this->paymentService->adminRejectPayment($payment, $request->user(), $validated['reason']);
 
-        return back()->with('success', "تم رفض إيصال الدفع وإشعار الطالب.");
+        return back()->with('success', 'تم رفض إيصال الدفع وإشعار الطالب.');
     }
 }

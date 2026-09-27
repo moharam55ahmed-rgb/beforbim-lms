@@ -9,7 +9,7 @@ use App\Modules\Lesson\Models\Lesson;
 class LessonPolicy
 {
     public function __construct(
-        protected CourseAccessService $accessService = new CourseAccessService()
+        protected CourseAccessService $accessService = new CourseAccessService
     ) {}
 
     /**

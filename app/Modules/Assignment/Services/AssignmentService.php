@@ -15,8 +15,8 @@ use InvalidArgumentException;
 class AssignmentService
 {
     public function __construct(
-        protected CourseAccessService $accessService = new CourseAccessService(),
-        protected NotificationService $notificationService = new NotificationService()
+        protected CourseAccessService $accessService = new CourseAccessService,
+        protected NotificationService $notificationService = new NotificationService
     ) {}
 
     /**
@@ -111,7 +111,7 @@ class AssignmentService
     /**
      * Grade an assignment submission using multi-criteria rubric evaluation.
      *
-     * @param array<int, float|array{score: float, comment?: string}> $rubricScores [rubric_id => score]
+     * @param  array<int, float|array{score: float, comment?: string}>  $rubricScores  [rubric_id => score]
      */
     public function gradeSubmissionWithRubrics(
         AssignmentSubmission $submission,
@@ -169,7 +169,7 @@ class AssignmentService
                 }
                 $breakdownSummary .= "\n";
             }
-            $composedFeedback = trim(($feedback ?? '') . $breakdownSummary);
+            $composedFeedback = trim(($feedback ?? '').$breakdownSummary);
         }
 
         return $this->gradeSubmission($submission, $instructor, $totalGrade, $composedFeedback);

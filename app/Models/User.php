@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Modules\AccessControl\Traits\HasRolesAndPermissions;
 use App\Modules\AuditLog\Models\AuditLog;
 use App\Modules\Course\Models\Course;
+use App\Modules\Course\Models\Wishlist;
 use App\Modules\CourseAnnouncement\Models\CourseAnnouncement;
 use App\Modules\CourseDiscussion\Models\CourseDiscussion;
 use App\Modules\CourseReview\Models\CourseReview;
@@ -16,6 +17,7 @@ use App\Modules\SupportTicket\Models\SupportTicket;
 use App\Modules\User\Models\InstructorProfile;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -26,7 +28,7 @@ use Illuminate\Support\Str;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes, HasRolesAndPermissions, HasMedia;
+    use HasFactory, HasMedia, HasRolesAndPermissions, Notifiable, SoftDeletes;
 
     protected $fillable = [
         'uuid',
@@ -94,7 +96,12 @@ class User extends Authenticatable
         return $this->hasMany(Course::class, 'instructor_id');
     }
 
-    public function coAuthoredCourses(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function courses(): HasMany
+    {
+        return $this->authoredCourses();
+    }
+
+    public function coAuthoredCourses(): BelongsToMany
     {
         return $this->belongsToMany(Course::class, 'course_instructors')
             ->withPivot('role')
@@ -138,10 +145,10 @@ class User extends Authenticatable
 
     public function wishlists(): HasMany
     {
-        return $this->hasMany(\App\Modules\Course\Models\Wishlist::class);
+        return $this->hasMany(Wishlist::class);
     }
 
-    public function wishlistCourses(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function wishlistCourses(): BelongsToMany
     {
         return $this->belongsToMany(Course::class, 'wishlists')->withTimestamps();
     }
@@ -182,7 +189,7 @@ class User extends Authenticatable
             $this->instructorProfile->isApproved();
     }
 
-    public function suspend(string $reason = null): void
+    public function suspend(?string $reason = null): void
     {
         $this->update(['status' => 'suspended']);
         AuditLog::log('User', 'ACCOUNT_SUSPENDED', auth()->user(), $this, null, ['status' => 'suspended'], $reason);

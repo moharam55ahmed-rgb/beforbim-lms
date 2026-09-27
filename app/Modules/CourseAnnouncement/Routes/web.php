@@ -1,6 +1,9 @@
 <?php
 
+use App\Modules\CourseAnnouncement\Controllers\CourseAnnouncementController;
 use Illuminate\Support\Facades\Route;
 
-// CourseAnnouncement Web Routes
-
+Route::middleware(['web', 'auth'])->prefix('courses/{course}/announcements')->name('courses.announcements.')->group(function () {
+    Route::get('/', [CourseAnnouncementController::class, 'index'])->name('index');
+    Route::post('/', [CourseAnnouncementController::class, 'store'])->name('store');
+});

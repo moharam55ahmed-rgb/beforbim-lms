@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Modules\Category\Models\Category;
 use App\Modules\Course\Models\Course;
 use App\Modules\Curriculum\Models\CourseSection;
 use App\Modules\DeviceSession\Models\DeviceSession;
@@ -117,7 +118,7 @@ class AuthenticationAndAccessTest extends TestCase
     public function test_instructor_cannot_publish_own_course_without_admin(): void
     {
         $instructor = User::where('email', 'instructor@beforbim.com')->first();
-        $category = \App\Modules\Category\Models\Category::first();
+        $category = Category::first();
         $course = Course::firstOrCreate(
             ['instructor_id' => $instructor->id],
             [
@@ -138,12 +139,11 @@ class AuthenticationAndAccessTest extends TestCase
     {
         $student = User::where('email', 'student@beforbim.com')->first();
         $instructor = User::where('email', 'instructor@beforbim.com')->first();
-        $category = \App\Modules\Category\Models\Category::first();
+        $category = Category::first();
         $course = Course::firstOrCreate(
-            ['instructor_id' => $instructor->id],
+            ['instructor_id' => $instructor->id, 'title_ar' => 'دورة أساسيات BIM'],
             [
                 'category_id' => $category?->id,
-                'title_ar' => 'دورة أساسيات BIM',
                 'title_en' => 'BIM Basics',
                 'price' => 100,
                 'currency' => 'SAR',
@@ -152,13 +152,13 @@ class AuthenticationAndAccessTest extends TestCase
         );
 
         $section = CourseSection::firstOrCreate(
-            ['course_id' => $course->id],
-            ['title_ar' => 'الوحدة التمهيدية', 'order_index' => 1]
+            ['course_id' => $course->id, 'title_ar' => 'الوحدة التمهيدية'],
+            ['order_index' => 1]
         );
 
         $privateLesson = Lesson::firstOrCreate(
-            ['section_id' => $section->id],
-            ['title_ar' => 'نمذجة الأعمدة الخرسانية', 'is_preview_free' => false, 'is_preview' => false]
+            ['section_id' => $section->id, 'title_ar' => 'نمذجة الأعمدة الخرسانية'],
+            ['is_preview_free' => false, 'is_preview' => false]
         );
 
         $this->assertFalse(Gate::forUser($student)->allows('view', $privateLesson));

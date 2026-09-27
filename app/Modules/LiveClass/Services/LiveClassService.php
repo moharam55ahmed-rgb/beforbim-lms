@@ -9,6 +9,7 @@ use App\Modules\Course\Services\CourseAccessService;
 use App\Modules\LiveClass\Models\LiveClass;
 use App\Modules\LiveClass\Models\LiveClassAttendance;
 use App\Modules\Notification\Services\NotificationService;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 
@@ -36,7 +37,7 @@ class LiveClassService
         $providerDriver = $this->providerManager->driver($provider);
 
         $meetingData = $providerDriver->createMeeting([
-            'topic' => $details['title_ar'] ?? ($course->title_ar . ' — حصة مباشرة'),
+            'topic' => $details['title_ar'] ?? ($course->title_ar.' — حصة مباشرة'),
             'start_time' => $details['scheduled_start_time'] ?? now()->addDay()->toIso8601String(),
             'duration_minutes' => (int) ($details['duration_minutes'] ?? 90),
             'password' => $details['meeting_password'] ?? null,
@@ -166,7 +167,7 @@ class LiveClassService
     /**
      * Get upcoming live classes for a course.
      */
-    public function getUpcomingForCourse(Course $course, int $limit = 5): \Illuminate\Support\Collection
+    public function getUpcomingForCourse(Course $course, int $limit = 5): Collection
     {
         return LiveClass::where('course_id', $course->id)
             ->where('status', 'SCHEDULED')
@@ -201,7 +202,7 @@ class LiveClassService
             }
         } catch (\Throwable $e) {
             // Notification failure must not block the scheduling workflow
-            logger()->error('LiveClass notification failed: ' . $e->getMessage());
+            logger()->error('LiveClass notification failed: '.$e->getMessage());
         }
     }
 }

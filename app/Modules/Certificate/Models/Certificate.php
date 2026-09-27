@@ -49,7 +49,7 @@ class Certificate extends Model
                 $cert->uuid = (string) Str::uuid();
             }
             if (empty($cert->certificate_number)) {
-                $cert->certificate_number = 'BFB-CERT-' . date('Y') . '-' . strtoupper(Str::random(8));
+                $cert->certificate_number = 'BFB-CERT-'.date('Y').'-'.strtoupper(Str::random(8));
             }
             if (empty($cert->verification_code)) {
                 $cert->verification_code = strtoupper(Str::random(12));
@@ -61,7 +61,7 @@ class Certificate extends Model
                 $cert->issued_at = now();
             }
             if (empty($cert->qr_verification_url)) {
-                $cert->qr_verification_url = config('app.url') . '/verify/' . $cert->verification_code;
+                $cert->qr_verification_url = config('app.url').'/verify/'.$cert->verification_code;
             }
         });
     }

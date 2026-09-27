@@ -7,6 +7,7 @@ use App\Modules\AccessControl\Models\Permission;
 use App\Modules\AccessControl\Models\Role;
 use App\Modules\Category\Models\Category;
 use App\Modules\Setting\Models\CmsSetting;
+use App\Modules\User\Models\InstructorProfile;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -190,7 +191,7 @@ class RolesAndPermissionsSeeder extends Seeder
             $user->assignRole($roleSlug);
 
             if ($roleSlug === 'instructor') {
-                \App\Modules\User\Models\InstructorProfile::firstOrCreate(
+                InstructorProfile::firstOrCreate(
                     ['user_id' => $user->id],
                     [
                         'bio' => 'مهندس استشاري وخبير معتمد في نمذجة معلومات البناء وتنسيق المشروعات الهندسية الكبرى.',
@@ -250,7 +251,20 @@ class RolesAndPermissionsSeeder extends Seeder
         // 6. Seed Baseline CMS Settings
         $settings = [
             ['key' => 'site_name', 'group' => 'branding', 'value' => 'Beforbim — بيفور بيم', 'type' => 'string', 'is_public' => true],
+            ['key' => 'site_name_ar', 'group' => 'general', 'value' => 'Beforbim — بيفور بيم', 'type' => 'string', 'is_public' => true],
+            ['key' => 'site_name_en', 'group' => 'general', 'value' => 'Beforbim — Engineering & BIM LMS', 'type' => 'string', 'is_public' => true],
             ['key' => 'site_tagline', 'group' => 'branding', 'value' => 'المنصة الهندسية الأولى لاحتراف نمذجة معلومات البناء BIM وإدارة المشروعات', 'type' => 'string', 'is_public' => true],
+            ['key' => 'contact_email', 'group' => 'general', 'value' => 'support@beforbim.com', 'type' => 'string', 'is_public' => true],
+            ['key' => 'contact_phone', 'group' => 'general', 'value' => '+966 50 000 0000', 'type' => 'string', 'is_public' => true],
+            ['key' => 'contact_address', 'group' => 'general', 'value' => 'المملكة العربية السعودية — الرياض / جمهورية مصر العربية — القاهرة', 'type' => 'string', 'is_public' => true],
+            ['key' => 'hero_badge', 'group' => 'branding', 'value' => 'الاعتماد الأكاديمي الدولي وفق مواصفة ISO 19650', 'type' => 'string', 'is_public' => true],
+            ['key' => 'hero_title_ar', 'group' => 'branding', 'value' => 'المنصة الهندسية الأولى المعتمدة لمهندسي الـ BIM وإدارة المشروعات الرقمية', 'type' => 'string', 'is_public' => true],
+            ['key' => 'hero_subtitle_ar', 'group' => 'branding', 'value' => 'اكتسب مهارات متقدمة في Revit, Navisworks, Civil 3D, Dynamo مع نخبة من الخبراء والاستشاريين المعتمدين.', 'type' => 'string', 'is_public' => true],
+            ['key' => 'about_mission', 'group' => 'branding', 'value' => 'جسر الفجوة بين التعليم الهندسي الأكاديمي والواقع العملي في المشروعات الضخمة.', 'type' => 'string', 'is_public' => true],
+            ['key' => 'about_vision', 'group' => 'branding', 'value' => 'أن نكون المرجع الهندسي الرقمي الأول في الشرق الأوسط وإفريقيا لاعتماد وتأهيل مديري ومنسقي BIM.', 'type' => 'string', 'is_public' => true],
+            ['key' => 'seo_meta_title', 'group' => 'branding', 'value' => 'Beforbim — أكاديمية نمذجة معلومات البناء وهندسة التشييد الرقمي', 'type' => 'string', 'is_public' => true],
+            ['key' => 'seo_meta_description', 'group' => 'branding', 'value' => 'أكاديمية Beforbim الرائدة في برامج دبلومات BIM المعتمدة، هندسة التشييد الرقمي، وتطبيقات Revit, Navisworks, Civil 3D, و Dynamo مع نخبة من الاستشاريين الدوليين.', 'type' => 'string', 'is_public' => true],
+            ['key' => 'seo_meta_keywords', 'group' => 'branding', 'value' => 'BIM, Revit, Navisworks, Civil 3D, Dynamo, نمذجة معلومات البناء, هندسة مدنية, كورسات هندسية', 'type' => 'string', 'is_public' => true],
             ['key' => 'default_currency', 'group' => 'payment', 'value' => 'SAR', 'type' => 'string', 'is_public' => true],
             ['key' => 'enforce_single_device', 'group' => 'security', 'value' => 'true', 'type' => 'boolean', 'is_public' => false],
             ['key' => 'vat_percentage', 'group' => 'payment', 'value' => '15.00', 'type' => 'string', 'is_public' => true],

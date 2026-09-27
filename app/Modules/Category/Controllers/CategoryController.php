@@ -77,6 +77,7 @@ class CategoryController extends Controller
     {
         try {
             $this->categoryService->deleteCategory($category);
+
             return back()->with('success', 'تم حذف التصنيف بنجاح.');
         } catch (\RuntimeException $e) {
             return back()->with('error', $e->getMessage());

@@ -16,7 +16,7 @@ class EnrollmentService
 {
     /**
      * Activate enrollments for a verified, completed order.
-     * 
+     *
      * STRICT RULES:
      * 1. Payment must be verified/completed before enrollment activation.
      * 2. Buying one course never unlocks another course: enrollments are created strictly per ordered item.
@@ -53,6 +53,7 @@ class EnrollmentService
 
                 if ($existing) {
                     $activatedEnrollments->push($existing);
+
                     continue;
                 }
 

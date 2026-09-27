@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Modules\Certificate\Models\Certificate;
 use App\Modules\Certificate\Services\CertificatePdfService;
 use App\Modules\Certificate\Services\CertificateService;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CertificateController extends Controller

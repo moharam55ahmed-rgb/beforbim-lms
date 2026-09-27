@@ -39,4 +39,3 @@ class DashboardController extends Controller
         return view('dashboards.admin', $data);
     }
 }
-

@@ -24,7 +24,7 @@ class GoogleMeetProvider implements LiveClassProviderInterface
             'meeting_id' => $meetingCode,
             'meeting_password' => null,
             'join_url' => $joinUrl,
-            'host_url' => $joinUrl . '?authuser=instructor',
+            'host_url' => $joinUrl.'?authuser=instructor',
         ];
     }
 

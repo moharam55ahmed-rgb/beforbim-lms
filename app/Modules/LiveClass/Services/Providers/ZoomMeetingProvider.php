@@ -9,7 +9,9 @@ use Illuminate\Support\Str;
 class ZoomMeetingProvider implements LiveClassProviderInterface
 {
     protected ?string $accountId;
+
     protected ?string $clientId;
+
     protected ?string $clientSecret;
 
     public function __construct()
@@ -70,8 +72,8 @@ class ZoomMeetingProvider implements LiveClassProviderInterface
 
         // Production-ready deterministic or simulated meeting credentials
         $meetingId = (string) random_int(80000000000, 99999999999);
-        $joinUrl = "https://us05web.zoom.us/j/{$meetingId}?pwd=" . urlencode($password);
-        $hostUrl = "https://us05web.zoom.us/s/{$meetingId}?zak=" . Str::random(32);
+        $joinUrl = "https://us05web.zoom.us/j/{$meetingId}?pwd=".urlencode($password);
+        $hostUrl = "https://us05web.zoom.us/s/{$meetingId}?zak=".Str::random(32);
 
         return [
             'meeting_id' => $meetingId,

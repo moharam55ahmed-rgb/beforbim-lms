@@ -16,12 +16,12 @@ class CourseService
     public function createCourse(array $data, User $instructor): Course
     {
         return DB::transaction(function () use ($data, $instructor) {
-            $course = new Course();
+            $course = new Course;
             $course->instructor_id = $instructor->id;
             $course->category_id = $data['category_id'] ?? null;
             $course->title_ar = $data['title_ar'];
             $course->title_en = $data['title_en'] ?? null;
-            $course->slug = Str::slug($data['title_en'] ?? $data['title_ar']) . '-' . Str::random(5);
+            $course->slug = Str::slug($data['title_en'] ?? $data['title_ar']).'-'.Str::random(5);
             $course->short_description_ar = $data['short_description_ar'] ?? null;
             $course->description_ar = $data['description_ar'] ?? null;
             $course->level = $data['level'] ?? 'ALL_LEVELS';

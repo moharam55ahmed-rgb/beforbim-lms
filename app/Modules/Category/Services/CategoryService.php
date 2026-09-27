@@ -16,7 +16,7 @@ class CategoryService
         return Category::query()
             ->whereNull('parent_id')
             ->where('is_active', true)
-            ->with(['children' => fn($q) => $q->where('is_active', true)->orderBy('display_order')])
+            ->with(['children' => fn ($q) => $q->where('is_active', true)->orderBy('display_order')])
             ->orderBy('display_order')
             ->get();
     }
@@ -26,7 +26,7 @@ class CategoryService
      */
     public function createCategory(array $data): Category
     {
-        $category = new Category();
+        $category = new Category;
         $category->parent_id = $data['parent_id'] ?? null;
         $category->name_ar = $data['name_ar'];
         $category->name_en = $data['name_en'] ?? null;

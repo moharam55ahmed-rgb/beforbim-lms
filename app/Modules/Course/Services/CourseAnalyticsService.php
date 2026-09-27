@@ -4,7 +4,6 @@ namespace App\Modules\Course\Services;
 
 use App\Models\User;
 use App\Modules\Course\Models\Course;
-use App\Modules\Enrollment\Models\Enrollment;
 use App\Modules\Progress\Models\LessonProgress;
 
 class CourseAnalyticsService
@@ -64,7 +63,7 @@ class CourseAnalyticsService
     public function getInstructorOverview(User $instructor): array
     {
         $courses = $instructor->authoredCourses()->with(['enrollments', 'lessons', 'approvedReviews'])->get();
-        
+
         $totalCourses = $courses->count();
         $totalEnrollments = 0;
         $totalCompleted = 0;

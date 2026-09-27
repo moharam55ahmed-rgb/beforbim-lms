@@ -30,8 +30,8 @@ class CurriculumController extends Controller
         $this->authorize('update', $course);
 
         $course->load([
-            'sections' => fn($q) => $q->orderBy('order_index')
-                ->with(['lessons' => fn($lq) => $lq->orderBy('order_index')->with(['content', 'resources'])]),
+            'sections' => fn ($q) => $q->orderBy('order_index')
+                ->with(['lessons' => fn ($lq) => $lq->orderBy('order_index')->with(['content', 'resources'])]),
         ]);
 
         return view('courses.curriculum', compact('course'));

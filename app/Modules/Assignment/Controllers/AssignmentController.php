@@ -8,7 +8,6 @@ use App\Modules\Assignment\Models\AssignmentSubmission;
 use App\Modules\Assignment\Services\AssignmentService;
 use App\Modules\Course\Models\Course;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class AssignmentController extends Controller
 {
@@ -46,12 +45,12 @@ class AssignmentController extends Controller
             $file = $request->file('file');
             $fileName = $file->getClientOriginalName();
             $fileSize = $file->getSize();
-            $path = $file->store('assignments/' . $assignment->id, 'local');
+            $path = $file->store('assignments/'.$assignment->id, 'local');
         } else {
             // Simulated submission file for development and headless testing
-            $fileName = 'project_model_' . $user->id . '.rvt';
+            $fileName = 'project_model_'.$user->id.'.rvt';
             $fileSize = 1048576;
-            $path = 'assignments/' . $assignment->id . '/' . $fileName;
+            $path = 'assignments/'.$assignment->id.'/'.$fileName;
         }
 
         $this->assignmentService->submitAssignment(

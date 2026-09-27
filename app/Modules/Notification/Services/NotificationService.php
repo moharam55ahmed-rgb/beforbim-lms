@@ -3,16 +3,12 @@
 namespace App\Modules\Notification\Services;
 
 use App\Models\User;
-use App\Modules\Assignment\Models\AssignmentSubmission;
-use App\Modules\Course\Models\Course;
-use App\Modules\Enrollment\Models\Enrollment;
 use App\Modules\Notification\Events\AssignmentGraded;
 use App\Modules\Notification\Events\CoursePublished;
 use App\Modules\Notification\Events\EnrollmentApproved;
 use App\Modules\Notification\Events\UserRegistered;
 use App\Modules\Notification\Notifications\BeforbimGeneralNotification;
 use App\Modules\Payment\Events\PaymentCompleted;
-use App\Modules\Payment\Models\Payment;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Notification;
 
@@ -157,6 +153,7 @@ class NotificationService
         $notification = $user->notifications()->where('id', $notificationId)->first();
         if ($notification) {
             $notification->markAsRead();
+
             return true;
         }
 
@@ -178,4 +175,3 @@ class NotificationService
         );
     }
 }
-

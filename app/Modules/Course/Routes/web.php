@@ -6,8 +6,9 @@ use Illuminate\Support\Facades\Route;
 
 // Course Web Routes
 
-// Public / Authenticated Course Index
+// Public / Authenticated Course Index & Details
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
+Route::get('/courses/{course}', [CourseController::class, 'show'])->name('courses.show');
 
 // Instructor & Admin Course Management
 Route::middleware(['auth', 'role:super_admin,admin,instructor'])->group(function () {

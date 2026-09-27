@@ -17,10 +17,10 @@ class CertificatePdfService
         $studentName = $certificate->student_name_snapshot ?? ($certificate->user?->name ?? 'Engineer Student');
         $courseName = $certificate->course_title_snapshot_ar ?? ($certificate->course?->title_ar ?? 'BIM Engineering Masterclass');
         $instructorName = $certificate->instructor_name_snapshot ?? ($certificate->course?->instructor?->name ?? 'Lead BIM Consultant');
-        $certNumber = $certificate->certificate_number ?? ('BFB-' . strtoupper(bin2hex(random_bytes(4))));
+        $certNumber = $certificate->certificate_number ?? ('BFB-'.strtoupper(bin2hex(random_bytes(4))));
         $verifyCode = $certificate->verification_code ?? strtoupper(bin2hex(random_bytes(6)));
         $issueDate = $certificate->issued_at ? $certificate->issued_at->format('Y-m-d') : date('Y-m-d');
-        $verifyUrl = $certificate->qr_verification_url ?: (config('app.url') . '/verify/' . $verifyCode);
+        $verifyUrl = $certificate->qr_verification_url ?: (config('app.url').'/verify/'.$verifyCode);
 
         // Sanitize strings for standard PDF ASCII/WinAnsiEncoding
         $cleanStudent = $this->sanitizeForPdf($studentName);
@@ -66,7 +66,7 @@ class CertificatePdfService
     public function save(Certificate $certificate, string $disk = 'public'): string
     {
         $pdfContent = $this->generate($certificate);
-        $filePath = 'certificates/' . $certificate->certificate_number . '.pdf';
+        $filePath = 'certificates/'.$certificate->certificate_number.'.pdf';
 
         Storage::disk($disk)->put($filePath, $pdfContent);
 
@@ -81,11 +81,11 @@ class CertificatePdfService
     public function download(Certificate $certificate): SymfonyResponse
     {
         $pdfContent = $this->generate($certificate);
-        $filename = 'certificate-' . $certificate->certificate_number . '.pdf';
+        $filename = 'certificate-'.$certificate->certificate_number.'.pdf';
 
         return new Response($pdfContent, 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
             'Content-Length' => strlen($pdfContent),
             'Cache-Control' => 'private, no-cache, no-store, must-revalidate',
             'Pragma' => 'no-cache',
@@ -98,11 +98,11 @@ class CertificatePdfService
     public function stream(Certificate $certificate): SymfonyResponse
     {
         $pdfContent = $this->generate($certificate);
-        $filename = 'certificate-' . $certificate->certificate_number . '.pdf';
+        $filename = 'certificate-'.$certificate->certificate_number.'.pdf';
 
         return new Response($pdfContent, 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="' . $filename . '"',
+            'Content-Disposition' => 'inline; filename="'.$filename.'"',
             'Content-Length' => strlen($pdfContent),
         ]);
     }
@@ -146,7 +146,7 @@ class CertificatePdfService
         $lg = $data['light_gold_rgb'];
 
         // Content Stream (Draw borders, Beforbim logo, typography, seal, and QR code vector matrix)
-        $cs = "";
+        $cs = '';
 
         // 1. Background fill
         $cs .= "q\n";
@@ -185,11 +185,11 @@ class CertificatePdfService
         $cx = 421;
         $cy = 505;
         $cs .= sprintf("%.3F %.3F %.3F rg\n", $p[0], $p[1], $p[2]);
-        $cs .= "{$cx} " . ($cy + 20) . " m " . ($cx - 18) . " " . ($cy + 10) . " l {$cx} {$cy} l " . ($cx + 18) . " " . ($cy + 10) . " l h f\n";
+        $cs .= "{$cx} ".($cy + 20).' m '.($cx - 18).' '.($cy + 10)." l {$cx} {$cy} l ".($cx + 18).' '.($cy + 10)." l h f\n";
         $cs .= sprintf("%.3F %.3F %.3F rg\n", $s[0], $s[1], $s[2]);
-        $cs .= ($cx - 18) . " " . ($cy + 10) . " m {$cx} {$cy} l {$cx} " . ($cy - 20) . " l " . ($cx - 18) . " " . ($cy - 10) . " l h f\n";
+        $cs .= ($cx - 18).' '.($cy + 10)." m {$cx} {$cy} l {$cx} ".($cy - 20).' l '.($cx - 18).' '.($cy - 10)." l h f\n";
         $cs .= sprintf("%.3F %.3F %.3F rg\n", $g[0], $g[1], $g[2]);
-        $cs .= "{$cx} {$cy} m " . ($cx + 18) . " " . ($cy + 10) . " l " . ($cx + 18) . " " . ($cy - 10) . " l {$cx} " . ($cy - 20) . " l h f\n";
+        $cs .= "{$cx} {$cy} m ".($cx + 18).' '.($cy + 10).' l '.($cx + 18).' '.($cy - 10)." l {$cx} ".($cy - 20)." l h f\n";
 
         // BEFORBIM Brand Text
         $cs .= "BT\n";
@@ -224,7 +224,7 @@ class CertificatePdfService
         $cs .= "BT\n";
         $cs .= "/F2 24 Tf\n";
         $cs .= sprintf("%.3F %.3F %.3F rg\n", $p[0], $p[1], $p[2]);
-        $cs .= "250 345 Td (" . $data['student_name'] . ") Tj\n";
+        $cs .= '250 345 Td ('.$data['student_name'].") Tj\n";
         $cs .= "ET\n";
 
         // Underline student name
@@ -243,7 +243,7 @@ class CertificatePdfService
         $cs .= "BT\n";
         $cs .= "/F2 17 Tf\n";
         $cs .= sprintf("%.3F %.3F %.3F rg\n", $s[0], $s[1], $s[2]);
-        $cs .= "240 285 Td (" . $data['course_title'] . ") Tj\n";
+        $cs .= '240 285 Td ('.$data['course_title'].") Tj\n";
         $cs .= "ET\n";
 
         // Verification Badge & QR Block (Left)
@@ -266,9 +266,9 @@ class CertificatePdfService
         $cs .= "145 185 Td (OFFICIAL VERIFICATION) Tj\n";
         $cs .= "/F1 7 Tf\n";
         $cs .= "0.2 0.25 0.3 rg\n";
-        $cs .= "0 -13 Td (Cert No: " . $data['certificate_number'] . ") Tj\n";
-        $cs .= "0 -11 Td (Code: " . $data['verification_code'] . ") Tj\n";
-        $cs .= "0 -11 Td (Date: " . $data['issue_date'] . ") Tj\n";
+        $cs .= '0 -13 Td (Cert No: '.$data['certificate_number'].") Tj\n";
+        $cs .= '0 -11 Td (Code: '.$data['verification_code'].") Tj\n";
+        $cs .= '0 -11 Td (Date: '.$data['issue_date'].") Tj\n";
         $cs .= "/F2 6 Tf\n";
         $cs .= sprintf("%.3F %.3F %.3F rg\n", $s[0], $s[1], $s[2]);
         $cs .= "0 -12 Td (verify.beforbim.com) Tj\n";
@@ -286,9 +286,9 @@ class CertificatePdfService
         $cs .= "BT\n";
         $cs .= "/F2 7 Tf\n";
         $cs .= sprintf("%.3F %.3F %.3F rg\n", $g[0], $g[1], $g[2]);
-        $cs .= ($sealX - 22) . " " . ($sealY + 6) . " Td (BEFORBIM) Tj\n";
+        $cs .= ($sealX - 22).' '.($sealY + 6)." Td (BEFORBIM) Tj\n";
         $cs .= "/F1 6 Tf\n";
-        $cs .= ($sealX - 24) . " " . ($sealY - 6) . " Td (SEAL OF QUALITY) Tj\n";
+        $cs .= ($sealX - 24).' '.($sealY - 6)." Td (SEAL OF QUALITY) Tj\n";
         $cs .= "ET\n";
 
         // Signatures (Right)
@@ -303,7 +303,7 @@ class CertificatePdfService
         $cs .= "BT\n";
         $cs .= "/F2 10 Tf\n";
         $cs .= sprintf("%.3F %.3F %.3F rg\n", $p[0], $p[1], $p[2]);
-        $cs .= "590 135 Td (" . $data['instructor_name'] . ") Tj\n";
+        $cs .= '590 135 Td ('.$data['instructor_name'].") Tj\n";
         $cs .= "/F1 8 Tf\n";
         $cs .= "0.4 0.45 0.5 rg\n";
         $cs .= "590 123 Td (Certified Lead BIM Instructor) Tj\n";
@@ -315,7 +315,7 @@ class CertificatePdfService
         $cs .= "BT\n";
         $cs .= "/F1 7 Tf\n";
         $cs .= "1 1 1 rg\n";
-        $cs .= "180 39 Td (Verified Digital Credential - Beforbim Engineering Education Platform - URL: " . $data['verification_url'] . ") Tj\n";
+        $cs .= '180 39 Td (Verified Digital Credential - Beforbim Engineering Education Platform - URL: '.$data['verification_url'].") Tj\n";
         $cs .= "ET\n";
 
         $cs .= "Q\n";
@@ -325,10 +325,10 @@ class CertificatePdfService
         $streamLen = strlen($cs);
 
         // Obj 1: Catalog
-        $objects[1] = "<< /Type /Catalog /Pages 2 0 R >>";
+        $objects[1] = '<< /Type /Catalog /Pages 2 0 R >>';
 
         // Obj 2: Pages
-        $objects[2] = "<< /Type /Pages /Kids [3 0 R] /Count 1 >>";
+        $objects[2] = '<< /Type /Pages /Kids [3 0 R] /Count 1 >>';
 
         // Obj 3: Page (Landscape 842 x 595)
         $objects[3] = "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 {$w} {$h}] /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>";
@@ -337,10 +337,10 @@ class CertificatePdfService
         $objects[4] = "<< /Length {$streamLen} >>\nstream\n{$cs}\nendstream";
 
         // Obj 5: Font F1 (Helvetica)
-        $objects[5] = "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>";
+        $objects[5] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>';
 
         // Obj 6: Font F2 (Helvetica-Bold)
-        $objects[6] = "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>";
+        $objects[6] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>';
 
         // Assemble xref and body
         $pdf = "%PDF-1.4\n%\xE2\xE3\xCF\xD3\n";
@@ -373,16 +373,16 @@ class CertificatePdfService
         // 5x5 simulated micro-QR positioning grids and pattern
         $cellSize = 8;
         // Outer box 1
-        $cs .= "{$startX} " . ($startY + 30) . " 15 15 re f\n";
+        $cs .= "{$startX} ".($startY + 30)." 15 15 re f\n";
         // Outer box 2
-        $cs .= ($startX + 30) . " " . ($startY + 30) . " 15 15 re f\n";
+        $cs .= ($startX + 30).' '.($startY + 30)." 15 15 re f\n";
         // Outer box 3
         $cs .= "{$startX} {$startY} 15 15 re f\n";
 
         // Center sync patterns
-        $cs .= ($startX + 18) . " " . ($startY + 18) . " 8 8 re f\n";
-        $cs .= ($startX + 28) . " " . ($startY + 5) . " 6 6 re f\n";
-        $cs .= ($startX + 38) . " " . ($startY + 12) . " 6 6 re f\n";
-        $cs .= ($startX + 5) . " " . ($startY + 20) . " 5 5 re f\n";
+        $cs .= ($startX + 18).' '.($startY + 18)." 8 8 re f\n";
+        $cs .= ($startX + 28).' '.($startY + 5)." 6 6 re f\n";
+        $cs .= ($startX + 38).' '.($startY + 12)." 6 6 re f\n";
+        $cs .= ($startX + 5).' '.($startY + 20)." 5 5 re f\n";
     }
 }

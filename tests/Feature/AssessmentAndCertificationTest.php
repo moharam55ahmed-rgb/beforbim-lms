@@ -20,11 +20,9 @@ use App\Modules\Curriculum\Models\CourseSection;
 use App\Modules\Enrollment\Services\EnrollmentService;
 use App\Modules\ExamSecurity\Services\ExamSecurityService;
 use App\Modules\Lesson\Models\Lesson;
-use App\Modules\Notification\Events\UserRegistered;
 use App\Modules\Notification\Services\NotificationService;
 use App\Modules\Progress\Services\LessonProgressService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class AssessmentAndCertificationTest extends TestCase
@@ -32,14 +30,23 @@ class AssessmentAndCertificationTest extends TestCase
     use RefreshDatabase;
 
     protected User $student;
+
     protected User $instructor;
+
     protected User $admin;
+
     protected Course $course;
+
     protected CourseSection $section;
+
     protected Lesson $lesson;
+
     protected Assessment $quiz;
+
     protected Assignment $assignment;
+
     protected AssessmentQuestion $question1;
+
     protected AssessmentQuestion $question2;
 
     protected function setUp(): void
@@ -62,7 +69,7 @@ class AssessmentAndCertificationTest extends TestCase
         $category = Category::create([
             'name_ar' => 'هندسة مدنية وإنشائية',
             'name_en' => 'Civil Engineering',
-            'slug' => 'civil-eng-' . uniqid(),
+            'slug' => 'civil-eng-'.uniqid(),
             'is_active' => true,
         ]);
 
@@ -71,7 +78,7 @@ class AssessmentAndCertificationTest extends TestCase
             'category_id' => $category->id,
             'title_ar' => 'دبلومة التصميم الإنشائي ونمذجة الـ BIM',
             'title_en' => 'Structural Design Diploma',
-            'slug' => 'structural-diploma-' . uniqid(),
+            'slug' => 'structural-diploma-'.uniqid(),
             'price' => 1500.00,
             'currency' => 'SAR',
             'status' => 'APPROVED',

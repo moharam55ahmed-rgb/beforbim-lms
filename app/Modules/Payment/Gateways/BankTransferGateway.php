@@ -14,7 +14,7 @@ class BankTransferGateway implements PaymentGatewayInterface
      */
     public function pay(Order $order, array $payload = []): array
     {
-        $reference = 'BANK-REQ-' . strtoupper(Str::random(10));
+        $reference = 'BANK-REQ-'.strtoupper(Str::random(10));
 
         return [
             'success' => true,
@@ -34,7 +34,7 @@ class BankTransferGateway implements PaymentGatewayInterface
      */
     public function verify(Payment $payment, array $payload = []): array
     {
-        $reference = 'MANUAL-BANK-' . strtoupper(Str::random(8));
+        $reference = 'MANUAL-BANK-'.strtoupper(Str::random(8));
 
         return [
             'verified' => true,
@@ -50,7 +50,7 @@ class BankTransferGateway implements PaymentGatewayInterface
     public function refund(Payment $payment, ?float $amount = null, ?string $reason = null): array
     {
         $refundAmount = $amount ?? (float) $payment->amount;
-        $reference = 'REFUND-BANK-' . strtoupper(Str::random(10));
+        $reference = 'REFUND-BANK-'.strtoupper(Str::random(10));
 
         return [
             'success' => true,

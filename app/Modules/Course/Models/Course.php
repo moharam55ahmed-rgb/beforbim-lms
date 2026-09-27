@@ -5,6 +5,7 @@ namespace App\Modules\Course\Models;
 use App\Models\User;
 use App\Modules\Assessment\Models\Assessment;
 use App\Modules\Assignment\Models\Assignment;
+use App\Modules\Cart\Models\Coupon;
 use App\Modules\Category\Models\Category;
 use App\Modules\Certificate\Models\Certificate;
 use App\Modules\CourseAnnouncement\Models\CourseAnnouncement;
@@ -28,7 +29,7 @@ use Illuminate\Support\Str;
 
 class Course extends Model
 {
-    use SoftDeletes, HasMedia;
+    use HasMedia, SoftDeletes;
 
     protected $fillable = [
         'uuid',
@@ -86,7 +87,7 @@ class Course extends Model
                 $course->uuid = (string) Str::uuid();
             }
             if (empty($course->slug)) {
-                $course->slug = Str::slug($course->title_en ?: $course->title_ar) . '-' . Str::random(5);
+                $course->slug = Str::slug($course->title_en ?: $course->title_ar).'-'.Str::random(5);
             }
         });
     }
@@ -208,12 +209,12 @@ class Course extends Model
 
     public function coupons(): BelongsToMany
     {
-        return $this->belongsToMany(\App\Modules\Cart\Models\Coupon::class, 'course_coupons')->withTimestamps();
+        return $this->belongsToMany(Coupon::class, 'course_coupons')->withTimestamps();
     }
 
     public function wishlists(): HasMany
     {
-        return $this->hasMany(\App\Modules\Course\Models\Wishlist::class);
+        return $this->hasMany(Wishlist::class);
     }
 
     public function wishlistedBy(): BelongsToMany

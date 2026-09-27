@@ -10,10 +10,10 @@ use App\Modules\Curriculum\Models\CourseSection;
 use App\Modules\Enrollment\Models\Enrollment;
 use App\Modules\Enrollment\Services\EnrollmentService;
 use App\Modules\Lesson\Models\Lesson;
+use App\Modules\Lesson\Policies\LessonPolicy;
 use App\Modules\Notification\Events\EnrollmentApproved;
 use App\Modules\Order\Models\Order;
 use App\Modules\Payment\Models\Payment;
-use App\Modules\Payment\Services\PaymentService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
 use RuntimeException;
@@ -24,9 +24,13 @@ class CommerceAndEnrollmentTest extends TestCase
     use DatabaseTransactions;
 
     protected User $student;
+
     protected User $admin;
+
     protected User $instructor;
+
     protected Course $courseA;
+
     protected Course $courseB;
 
     protected function setUp(): void
@@ -49,7 +53,7 @@ class CommerceAndEnrollmentTest extends TestCase
         $category = Category::create([
             'name_ar' => 'تصنيف BIM تجاري',
             'name_en' => 'Commercial BIM',
-            'slug' => 'commercial-bim-' . rand(100, 999),
+            'slug' => 'commercial-bim-'.rand(100, 999),
             'is_active' => true,
         ]);
 
@@ -229,7 +233,7 @@ class CommerceAndEnrollmentTest extends TestCase
         ]);
 
         // Unauthenticated guest can preview previewLesson
-        $policy = app(\App\Modules\Lesson\Policies\LessonPolicy::class);
+        $policy = app(LessonPolicy::class);
         $this->assertTrue($policy->view(null, $previewLesson));
 
         // Guest cannot access lockedLesson

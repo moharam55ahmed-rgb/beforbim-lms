@@ -21,9 +21,9 @@ class AdminDashboardService
         return [
             'total_users' => User::count(),
             'active_students' => User::where('status', 'active')
-                ->whereHas('roles', fn($q) => $q->where('name', 'student'))
+                ->whereHas('roles', fn ($q) => $q->where('name', 'student'))
                 ->count(),
-            'instructors_count' => User::whereHas('roles', fn($q) => $q->where('name', 'instructor'))->count(),
+            'instructors_count' => User::whereHas('roles', fn ($q) => $q->where('name', 'instructor'))->count(),
             'pending_instructor_profiles' => InstructorProfile::where('profile_status', 'pending')->count(),
             'total_courses' => Course::count(),
             'pending_course_approvals' => Course::where('status', 'SUBMITTED')->count(),

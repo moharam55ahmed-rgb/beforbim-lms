@@ -4,12 +4,9 @@ namespace App\Modules\Auth\Services;
 
 use App\Models\User;
 use App\Modules\Assessment\Models\Assessment;
-use App\Modules\Assessment\Models\AssessmentAttempt;
 use App\Modules\Assignment\Models\Assignment;
-use App\Modules\Assignment\Models\AssignmentSubmission;
 use App\Modules\Certificate\Models\Certificate;
 use App\Modules\Course\Models\Course;
-use App\Modules\Enrollment\Models\Enrollment;
 use App\Modules\Lesson\Models\Lesson;
 use App\Modules\Progress\Models\LessonProgress;
 use App\Modules\User\Services\UserActivityService;

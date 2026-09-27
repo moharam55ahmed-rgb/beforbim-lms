@@ -42,7 +42,7 @@ class Order extends Model
     {
         static::creating(function (Order $order) {
             if (empty($order->order_number)) {
-                $order->order_number = 'ORD-' . date('Ymd') . '-' . strtoupper(Str::random(6));
+                $order->order_number = 'ORD-'.date('Ymd').'-'.strtoupper(Str::random(6));
             }
         });
     }

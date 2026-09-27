@@ -16,7 +16,6 @@ use App\Modules\Lesson\Models\Lesson;
 use App\Modules\Media\Models\LessonResource;
 use App\Modules\Order\Models\Order;
 use App\Modules\Payment\Events\PaymentCompleted;
-use App\Modules\Payment\Events\PaymentFailed;
 use App\Modules\Payment\Events\PaymentRefunded;
 use App\Modules\Payment\Gateways\CardPaymentGateway;
 use App\Modules\Payment\Services\PaymentService;
@@ -29,10 +28,15 @@ class CommerceAndAccessRefinementsTest extends TestCase
     use RefreshDatabase;
 
     protected User $student;
+
     protected User $instructor;
+
     protected User $admin;
+
     protected Course $courseA;
+
     protected Course $courseB;
+
     protected Category $category;
 
     protected function setUp(): void
@@ -55,7 +59,7 @@ class CommerceAndAccessRefinementsTest extends TestCase
         $this->category = Category::create([
             'name_ar' => 'هندسة مدنية',
             'name_en' => 'Civil Engineering',
-            'slug' => 'civil-eng-' . uniqid(),
+            'slug' => 'civil-eng-'.uniqid(),
             'is_active' => true,
         ]);
 
@@ -90,7 +94,7 @@ class CommerceAndAccessRefinementsTest extends TestCase
 
         $order = Order::create([
             'user_id' => $this->student->id,
-            'order_number' => 'ORD-' . strtoupper(uniqid()),
+            'order_number' => 'ORD-'.strtoupper(uniqid()),
             'subtotal' => 500.00,
             'discount_amount' => 0.00,
             'tax_amount' => 0.00,
@@ -138,7 +142,7 @@ class CommerceAndAccessRefinementsTest extends TestCase
 
         $order = Order::create([
             'user_id' => $this->student->id,
-            'order_number' => 'ORD-' . strtoupper(uniqid()),
+            'order_number' => 'ORD-'.strtoupper(uniqid()),
             'subtotal' => 500.00,
             'discount_amount' => 0.00,
             'tax_amount' => 0.00,

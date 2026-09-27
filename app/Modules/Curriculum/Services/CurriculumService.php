@@ -5,7 +5,6 @@ namespace App\Modules\Curriculum\Services;
 use App\Modules\Course\Models\Course;
 use App\Modules\Curriculum\Models\CourseSection;
 use App\Modules\Lesson\Models\Lesson;
-use App\Modules\Media\Models\LessonContent;
 use App\Modules\Media\Models\LessonResource;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -90,7 +89,7 @@ class CurriculumService
             ]);
 
             // Add optional initial lesson content (e.g. video URL or text body)
-            if (!empty($data['video_url']) || !empty($data['article_body'])) {
+            if (! empty($data['video_url']) || ! empty($data['article_body'])) {
                 $lesson->content()->create([
                     'content_type' => $lesson->lesson_type,
                     'video_provider' => $data['video_provider'] ?? 'LOCAL',

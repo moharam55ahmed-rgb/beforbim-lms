@@ -24,14 +24,14 @@ return new class extends Migration
             $table->unsignedTinyInteger('max_attempts')->default(1); // 0 = unlimited
             $table->boolean('shuffle_questions')->default(true);
             $table->boolean('shuffle_options')->default(true);
-            
+
             // Configurable per exam security parameters
             $table->boolean('is_proctored_mode')->default(false);
             $table->boolean('monitor_tab_switch')->default(false);
             $table->boolean('monitor_fullscreen_exit')->default(false);
             $table->unsignedTinyInteger('max_violations_allowed')->default(3);
             $table->boolean('requires_manual_audit')->default(false); // Flags for instructor/admin manual audit
-            
+
             $table->timestamps();
 
             $table->index(['course_id', 'type']);
