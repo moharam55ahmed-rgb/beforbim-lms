@@ -4,21 +4,27 @@
     'keywords' => null,
     'image' => null,
     'type' => 'website',
-    'lang' => 'en',
-    'dir' => 'ltr',
+    'lang' => null,
+    'dir' => null,
 ])
+
+@php
+    $currentLang = $lang ?? session('locale', 'en');
+    $currentDir = $dir ?? ($currentLang === 'ar' ? 'rtl' : 'ltr');
+@endphp
+
 <!DOCTYPE html>
-<html lang="{{ $lang }}" dir="{{ $dir }}" class="scroll-smooth">
+<html lang="{{ $currentLang }}" dir="{{ $currentDir }}" class="scroll-smooth">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- Theme Initialization (Prevents FOUC) -->
+    <!-- Theme Initialization: Default is LIGHT mode, Dark mode only if explicitly selected -->
     <script>
         (function() {
             const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            if (savedTheme === 'dark') {
                 document.documentElement.classList.add('dark');
             } else {
                 document.documentElement.classList.remove('dark');
@@ -52,7 +58,7 @@
 
     @stack('styles')
 </head>
-<body class="font-sans antialiased bg-slate-50 text-slate-800 dark:bg-[#070F1E] dark:text-slate-100 min-h-screen flex flex-col selection:bg-[#D4AF37] selection:text-[#071A36] transition-colors duration-200">
+<body class="font-sans antialiased bg-[#F8FAFC] text-slate-900 dark:bg-[#070F1E] dark:text-slate-100 min-h-screen flex flex-col selection:bg-[#D4AF37] selection:text-[#071A36] transition-colors duration-200">
     {{ $slot }}
 
     @stack('scripts')

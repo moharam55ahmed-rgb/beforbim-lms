@@ -18,9 +18,8 @@
             <h1 class="text-3xl sm:text-5xl font-black font-['Outfit'] text-white tracking-tight">
                 Empowering Engineers Through <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#F3D98B] via-[#D4AF37] to-amber-200">Digital Construction</span>
             </h1>
-
             <p class="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
-                {{ $cms->get('about_hero_sub', 'Beforbim is an engineering academy committed to upskilling architects, structural engineers, and MEP specialists into certified BIM Managers and computational designers.') }}
+                {{ $cms->get('about_hero_sub_en') ?: 'Beforbim is an engineering academy committed to upskilling architects, structural engineers, and MEP specialists into certified BIM Managers and computational designers.' }}
             </p>
         </div>
     </section>
@@ -39,7 +38,7 @@
                     <span class="sr-only">رسالتنا الأكاديمية</span>
                 </div>
                 <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-light">
-                    {{ $cms->get('about_mission', 'Bridging the divide between conceptual engineering studies and field execution through production-grade model drafting, clash resolution, and computational design algorithms.') }}
+                    {{ $cms->get('about_mission_en') ?: 'Bridging the divide between conceptual engineering studies and field execution through production-grade model drafting, clash resolution, and computational design algorithms.' }}
                 </p>
             </div>
 
@@ -53,7 +52,7 @@
                     <span class="sr-only">رؤيتنا المستقبلية</span>
                 </div>
                 <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-light">
-                    {{ $cms->get('about_vision', 'To stand as Egypt and the region’s premier accredited destination for certifying BIM Managers, 4D/5D simulation experts, and smart infrastructure engineers.') }}
+                    {{ $cms->get('about_vision_en') ?: 'To stand as Egypt and the region’s premier accredited destination for certifying BIM Managers, 4D/5D simulation experts, and smart infrastructure engineers.' }}
                 </p>
             </div>
 
@@ -67,7 +66,7 @@
                     <span class="sr-only">قيمنا ومعاييرنا الهندسية</span>
                 </div>
                 <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-light">
-                    {{ $cms->get('about_values', 'Precision, international compliance (ISO 19650), transparency, and continuous mentorship until every engineer achieves certified practical mastery.') }}
+                    {{ $cms->get('about_values_en') ?: 'Precision, international compliance (ISO 19650), transparency, and continuous mentorship until every engineer achieves certified practical mastery.' }}
                 </p>
             </div>
         </div>

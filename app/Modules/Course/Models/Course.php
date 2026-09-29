@@ -246,4 +246,38 @@ class Course extends Model
     {
         return (int) $this->approvedReviews()->count();
     }
+
+    public function getDisplayDescriptionEnAttribute(): string
+    {
+        $title = $this->title_en ?: $this->title_ar;
+
+        return "This comprehensive engineering diploma covers all production phases of {$title}, from shared coordinate establishment and parametric modeling to automated shop drawing production, clash detection, and ISO 19650 compliant IFC delivery.\n\nThe curriculum is built around actual live mega-project datasets, preparing engineering students and practicing engineers for tier-one consulting firm placements.";
+    }
+
+    public function getDisplayShortDescriptionEnAttribute(): string
+    {
+        $title = $this->title_en ?: $this->title_ar;
+
+        return "Master {$title} with production-grade parametric modeling, multi-disciplinary clash detection, and ISO 19650 documentation.";
+    }
+
+    public function getLearningOutcomesEnAttribute(): array
+    {
+        return [
+            'Build accurate multidisciplinary BIM models up to LOD 350/400 detail.',
+            'Create advanced custom parametric families with shared parameters.',
+            'Generate automated, high-precision structural and architectural quantity schedules (BOQ).',
+            'Extract fabrication-ready Shop Drawings, reinforcement schedules, and IFC exports.',
+        ];
+    }
+
+    public function getSoftwareRequirementsEnAttribute(): array
+    {
+        return [
+            'Autodesk Revit 2024 / 2025',
+            'Autodesk Navisworks Manage',
+            'Dynamo for Revit & Python API',
+            'Windows 10/11 64-bit Workstation',
+        ];
+    }
 }

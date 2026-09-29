@@ -60,7 +60,13 @@ class CourseController extends Controller
             },
         ]);
 
-        return view('courses.show', compact('course'));
+        $relatedCourses = Course::where('status', 'APPROVED')
+            ->where('id', '!=', $course->id)
+            ->with(['instructor', 'category'])
+            ->take(3)
+            ->get();
+
+        return view('courses.show', compact('course', 'relatedCourses'));
     }
 
     /**

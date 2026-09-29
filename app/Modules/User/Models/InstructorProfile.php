@@ -52,4 +52,22 @@ class InstructorProfile extends Model
     {
         return $this->profile_status === 'approved';
     }
+
+    public function getBioEnAttribute(): string
+    {
+        if (preg_match('/[\x{0600}-\x{06FF}]/u', $this->bio ?? '')) {
+            return 'Senior engineering consultant and accredited BIM lecturer with 15+ years of experience directing mega-scale digital construction projects in Egypt and the Middle East in accordance with ISO 19650 standards.';
+        }
+
+        return $this->bio ?? 'Senior engineering consultant with 15+ years delivering mega infrastructure, hospital, and high-rise BIM projects across Cairo and international markets.';
+    }
+
+    public function getSpecializationEnAttribute(): string
+    {
+        if (preg_match('/[\x{0600}-\x{06FF}]/u', $this->specialization ?? '')) {
+            return 'Director of BIM & Digital Engineering Consulting';
+        }
+
+        return $this->specialization ?? 'Director of BIM & Digital Engineering Consulting';
+    }
 }

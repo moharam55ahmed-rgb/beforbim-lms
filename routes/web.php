@@ -26,3 +26,13 @@ Route::get('/blog/{slug}', [PublicPageController::class, 'blogShow'])->name('blo
 // Instructors
 Route::get('/instructors', [PublicPageController::class, 'instructors'])->name('instructors.index');
 Route::get('/instructors/{user}', [PublicPageController::class, 'instructorShow'])->name('instructors.show');
+
+// Language Switcher
+Route::get('/language/{locale}', function (string $locale) {
+    if (in_array($locale, ['en', 'ar'])) {
+        session(['locale' => $locale]);
+        app()->setLocale($locale);
+    }
+
+    return back();
+})->name('language.switch');
