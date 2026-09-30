@@ -422,35 +422,58 @@
 
         </div>
 
-        <!-- Slider Controls: Arrows (Left & Right) -->
+        <!-- Ambient Animated Glow Elements -->
+        <div class="absolute -top-32 -left-32 w-96 h-96 bg-[#D4AF37]/15 rounded-full blur-[130px] pointer-events-none animate-pulse-soft"></div>
+        <div class="absolute -bottom-32 -right-32 w-[32rem] h-[32rem] bg-[#00F0FF]/10 rounded-full blur-[150px] pointer-events-none animate-pulse-glow"></div>
+
+        <!-- Floating Engineering Certification Badge (Desktop Micro-Motion) -->
+        <div class="hidden xl:flex absolute right-10 bottom-24 z-20 animate-float-slow pointer-events-none">
+            <div class="p-3.5 rounded-2xl bg-[#040E1E]/85 backdrop-blur-xl border border-[#D4AF37]/40 shadow-2xl flex items-center gap-3 max-w-xs text-white">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#D4AF37] to-[#B38F24] text-[#040E1E] flex items-center justify-center font-black font-['Outfit'] text-xs shadow-md shrink-0">
+                    BIM
+                </div>
+                <div class="space-y-0.5">
+                    <div class="flex items-center gap-1.5 text-[10px] font-mono text-[#F3D98B] font-bold uppercase tracking-wider">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span>{{ $isAr ? 'اعتماد دولي ISO 19650' : 'ISO 19650 Certified' }}</span>
+                    </div>
+                    <div class="text-[11px] font-bold font-['Outfit'] text-slate-100">
+                        {{ $isAr ? 'مختبرات تطبيقية ومشاريع حقيقية' : 'Live Hands-On BIM Projects' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slider Controls: Arrows (Left & Right) with Micro-Bounce -->
         <button 
             type="button" 
             @click="prev()" 
-            class="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-black/40 hover:bg-[#D4AF37] text-white hover:text-[#040E1E] backdrop-blur-md border border-white/20 flex items-center justify-center transition-all shadow-lg cursor-pointer group"
+            class="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-black/50 hover:bg-[#D4AF37] text-white hover:text-[#040E1E] backdrop-blur-md border border-white/20 hover:border-[#D4AF37] flex items-center justify-center transition-all duration-300 shadow-xl hover:scale-110 active:scale-95 cursor-pointer group"
             title="{{ $isAr ? 'الشريحة السابقة' : 'Previous Slide' }}"
             aria-label="Previous Slide"
         >
-            <svg class="w-5 h-5 transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+            <svg class="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
         </button>
 
         <button 
             type="button" 
             @click="next()" 
-            class="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-black/40 hover:bg-[#D4AF37] text-white hover:text-[#040E1E] backdrop-blur-md border border-white/20 flex items-center justify-center transition-all shadow-lg cursor-pointer group"
+            class="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-black/50 hover:bg-[#D4AF37] text-white hover:text-[#040E1E] backdrop-blur-md border border-white/20 hover:border-[#D4AF37] flex items-center justify-center transition-all duration-300 shadow-xl hover:scale-110 active:scale-95 cursor-pointer group"
             title="{{ $isAr ? 'الشريحة التالية' : 'Next Slide' }}"
             aria-label="Next Slide"
         >
-            <svg class="w-5 h-5 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
         </button>
 
-        <!-- Slider Pagination Indicators (Sleek Numbered Engineering Pills on Desktop, Dots on Mobile) -->
-        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 sm:gap-3 bg-black/40 backdrop-blur-md p-1.5 rounded-full border border-white/15">
+        <!-- Slider Pagination Indicators (Numbered Engineering Pills with Active Pulse) -->
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 sm:gap-2.5 bg-black/60 backdrop-blur-xl p-1.5 rounded-full border border-white/20 shadow-2xl">
             <button 
                 type="button" 
                 @click="goTo(0)" 
-                class="px-3 sm:px-4 py-1 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-300 cursor-pointer flex items-center gap-1.5"
-                :class="activeSlide === 0 ? 'bg-[#D4AF37] text-[#040E1E] shadow-md shadow-[#D4AF37]/50' : 'text-slate-300 hover:text-white hover:bg-white/10'"
+                class="relative px-3 sm:px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-300 cursor-pointer flex items-center gap-1.5 overflow-hidden"
+                :class="activeSlide === 0 ? 'bg-[#D4AF37] text-[#040E1E] shadow-lg shadow-[#D4AF37]/50 scale-105' : 'text-slate-300 hover:text-white hover:bg-white/10'"
             >
+                <span class="w-1.5 h-1.5 rounded-full" :class="activeSlide === 0 ? 'bg-[#040E1E] animate-pulse' : 'bg-slate-400'"></span>
                 <span class="font-mono">01</span>
                 <span class="hidden md:inline">{{ $isAr ? 'ريفيت معماري' : 'Revit Arch' }}</span>
             </button>
@@ -458,9 +481,10 @@
             <button 
                 type="button" 
                 @click="goTo(1)" 
-                class="px-3 sm:px-4 py-1 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-300 cursor-pointer flex items-center gap-1.5"
-                :class="activeSlide === 1 ? 'bg-[#D4AF37] text-[#040E1E] shadow-md shadow-[#D4AF37]/50' : 'text-slate-300 hover:text-white hover:bg-white/10'"
+                class="relative px-3 sm:px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-300 cursor-pointer flex items-center gap-1.5 overflow-hidden"
+                :class="activeSlide === 1 ? 'bg-[#D4AF37] text-[#040E1E] shadow-lg shadow-[#D4AF37]/50 scale-105' : 'text-slate-300 hover:text-white hover:bg-white/10'"
             >
+                <span class="w-1.5 h-1.5 rounded-full" :class="activeSlide === 1 ? 'bg-[#040E1E] animate-pulse' : 'bg-slate-400'"></span>
                 <span class="font-mono">02</span>
                 <span class="hidden md:inline">{{ $isAr ? 'نافيسووركس 4D' : 'Navisworks 4D' }}</span>
             </button>
@@ -468,9 +492,10 @@
             <button 
                 type="button" 
                 @click="goTo(2)" 
-                class="px-3 sm:px-4 py-1 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-300 cursor-pointer flex items-center gap-1.5"
-                :class="activeSlide === 2 ? 'bg-[#D4AF37] text-[#040E1E] shadow-md shadow-[#D4AF37]/50' : 'text-slate-300 hover:text-white hover:bg-white/10'"
+                class="relative px-3 sm:px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-300 cursor-pointer flex items-center gap-1.5 overflow-hidden"
+                :class="activeSlide === 2 ? 'bg-[#D4AF37] text-[#040E1E] shadow-lg shadow-[#D4AF37]/50 scale-105' : 'text-slate-300 hover:text-white hover:bg-white/10'"
             >
+                <span class="w-1.5 h-1.5 rounded-full" :class="activeSlide === 2 ? 'bg-[#040E1E] animate-pulse' : 'bg-slate-400'"></span>
                 <span class="font-mono">03</span>
                 <span class="hidden md:inline">{{ $isAr ? 'تسليح إنشائي' : 'Structural Rebar' }}</span>
             </button>
@@ -478,9 +503,10 @@
             <button 
                 type="button" 
                 @click="goTo(3)" 
-                class="px-3 sm:px-4 py-1 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-300 cursor-pointer flex items-center gap-1.5"
-                :class="activeSlide === 3 ? 'bg-[#D4AF37] text-[#040E1E] shadow-md shadow-[#D4AF37]/50' : 'text-slate-300 hover:text-white hover:bg-white/10'"
+                class="relative px-3 sm:px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-300 cursor-pointer flex items-center gap-1.5 overflow-hidden"
+                :class="activeSlide === 3 ? 'bg-[#D4AF37] text-[#040E1E] shadow-lg shadow-[#D4AF37]/50 scale-105' : 'text-slate-300 hover:text-white hover:bg-white/10'"
             >
+                <span class="w-1.5 h-1.5 rounded-full" :class="activeSlide === 3 ? 'bg-[#040E1E] animate-pulse' : 'bg-slate-400'"></span>
                 <span class="font-mono">04</span>
                 <span class="hidden md:inline">{{ $isAr ? 'داينامو بايثون' : 'Dynamo Python' }}</span>
             </button>
@@ -529,50 +555,99 @@
         </div>
     </section>
 
-    <!-- 2. Row of 4 Floating Stat Cards (Light default, Dark option) -->
-    <section class="py-10 bg-white dark:bg-[#070F1E] border-b border-slate-200/80 dark:border-white/10 transition-colors duration-200">
+    <!-- 2. Row of 4 Floating Stat Cards (Interactive Motion & Engineering Aesthetics) -->
+    <section class="py-10 bg-white dark:bg-[#070F1E] border-b border-slate-200/80 dark:border-white/10 transition-colors duration-200 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 
-                <!-- Stat Card 1 -->
-                <div class="rounded-2xl p-5 bg-slate-50 dark:bg-[#071A36]/80 border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37] dark:hover:border-[#D4AF37] transition-all shadow-sm text-center flex flex-col items-center justify-center">
-                    <span class="text-2xl sm:text-3xl lg:text-4xl font-black font-['Outfit'] text-[#071A36] dark:text-[#F3D98B] tracking-tight">
+                <!-- Stat Card 1: Certified Engineers -->
+                <div class="group card-sheen hover-lift rounded-2xl p-6 bg-slate-50/90 dark:bg-[#071A36]/80 border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37]/60 dark:hover:border-[#D4AF37]/60 transition-all shadow-sm hover:shadow-xl hover:shadow-[#D4AF37]/10 flex flex-col items-center justify-between text-center relative overflow-hidden">
+                    <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    
+                    <div class="w-12 h-12 rounded-2xl bg-amber-500/10 dark:bg-[#D4AF37]/15 text-[#D4AF37] flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110 shadow-xs">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 14v7"/></svg>
+                    </div>
+
+                    <span class="text-2xl sm:text-3xl lg:text-4xl font-black font-['Outfit'] text-transparent bg-clip-text bg-gradient-to-r from-[#071A36] via-[#123B68] to-[#071A36] dark:from-[#FFF0C2] dark:via-[#F3D98B] dark:to-[#D4AF37] tracking-tight group-hover:scale-105 transition-transform duration-300">
                         +12,500
                     </span>
+                    
                     <span class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-semibold mt-1">
                         {{ $isAr ? 'مهندس معتمد ومتخرج' : 'Engineers Certified' }}
                     </span>
+
+                    <span class="mt-2 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-medium">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        {{ $isAr ? 'خريجون في 14 دولة' : 'Active Alumni Network' }}
+                    </span>
                 </div>
 
-                <!-- Stat Card 2 -->
-                <div class="rounded-2xl p-5 bg-slate-50 dark:bg-[#071A36]/80 border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37] dark:hover:border-[#D4AF37] transition-all shadow-sm text-center flex flex-col items-center justify-center">
-                    <span class="text-2xl sm:text-3xl lg:text-4xl font-black font-['Outfit'] text-[#071A36] dark:text-[#F3D98B] tracking-tight">
+                <!-- Stat Card 2: Mega Projects -->
+                <div class="group card-sheen hover-lift rounded-2xl p-6 bg-slate-50/90 dark:bg-[#071A36]/80 border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37]/60 dark:hover:border-[#D4AF37]/60 transition-all shadow-sm hover:shadow-xl hover:shadow-[#D4AF37]/10 flex flex-col items-center justify-between text-center relative overflow-hidden">
+                    <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                    <div class="w-12 h-12 rounded-2xl bg-sky-500/10 dark:bg-sky-400/15 text-sky-600 dark:text-sky-400 flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110 shadow-xs">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    </div>
+
+                    <span class="text-2xl sm:text-3xl lg:text-4xl font-black font-['Outfit'] text-transparent bg-clip-text bg-gradient-to-r from-[#071A36] via-[#123B68] to-[#071A36] dark:from-[#FFF0C2] dark:via-[#F3D98B] dark:to-[#D4AF37] tracking-tight group-hover:scale-105 transition-transform duration-300">
                         +45
                     </span>
+
                     <span class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-semibold mt-1">
                         {{ $isAr ? 'مشروع حقيقي معتمد' : 'Mega-Project Datasets' }}
                     </span>
+
+                    <span class="mt-2 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono text-sky-600 dark:text-sky-400 bg-sky-500/10 font-medium">
+                        <span class="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse"></span>
+                        {{ $isAr ? 'نماذج LOD 350-400' : 'Full BIM Packages' }}
+                    </span>
                 </div>
 
-                <!-- Stat Card 3 -->
-                <div class="rounded-2xl p-5 bg-slate-50 dark:bg-[#071A36]/80 border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37] dark:hover:border-[#D4AF37] transition-all shadow-sm text-center flex flex-col items-center justify-center">
-                    <span class="text-2xl sm:text-3xl lg:text-4xl font-black font-['Outfit'] text-[#071A36] dark:text-[#F3D98B] tracking-tight">
+                <!-- Stat Card 3: ISO 19650 Compliance -->
+                <div class="group card-sheen hover-lift rounded-2xl p-6 bg-slate-50/90 dark:bg-[#071A36]/80 border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37]/60 dark:hover:border-[#D4AF37]/60 transition-all shadow-sm hover:shadow-xl hover:shadow-[#D4AF37]/10 flex flex-col items-center justify-between text-center relative overflow-hidden">
+                    <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                    <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 dark:bg-indigo-400/15 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110 shadow-xs">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                    </div>
+
+                    <span class="text-2xl sm:text-3xl lg:text-4xl font-black font-['Outfit'] text-transparent bg-clip-text bg-gradient-to-r from-[#071A36] via-[#123B68] to-[#071A36] dark:from-[#FFF0C2] dark:via-[#F3D98B] dark:to-[#D4AF37] tracking-tight group-hover:scale-105 transition-transform duration-300">
                         100%
                     </span>
+
                     <span class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-semibold mt-1">
                         {{ $isAr ? 'توافق مع معايير ISO 19650' : 'ISO 19650 Compliance' }}
                     </span>
+
+                    <span class="mt-2 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono text-indigo-600 dark:text-indigo-400 bg-indigo-500/10 font-medium">
+                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
+                        {{ $isAr ? 'معايير CDE الدولية' : 'Global Industry Norm' }}
+                    </span>
                 </div>
 
-                <!-- Stat Card 4 -->
-                <div class="rounded-2xl p-5 bg-slate-50 dark:bg-[#071A36]/80 border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37] dark:hover:border-[#D4AF37] transition-all shadow-sm text-center flex flex-col items-center justify-center">
-                    <span class="text-2xl sm:text-3xl lg:text-4xl font-black font-['Outfit'] text-[#071A36] dark:text-[#F3D98B] tracking-tight">
+                <!-- Stat Card 4: Verified Rating -->
+                <div class="group card-sheen hover-lift rounded-2xl p-6 bg-slate-50/90 dark:bg-[#071A36]/80 border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37]/60 dark:hover:border-[#D4AF37]/60 transition-all shadow-sm hover:shadow-xl hover:shadow-[#D4AF37]/10 flex flex-col items-center justify-between text-center relative overflow-hidden">
+                    <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                    <div class="w-12 h-12 rounded-2xl bg-yellow-500/10 dark:bg-yellow-400/15 text-amber-500 flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110 shadow-xs">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    </div>
+
+                    <span class="text-2xl sm:text-3xl lg:text-4xl font-black font-['Outfit'] text-transparent bg-clip-text bg-gradient-to-r from-[#071A36] via-[#123B68] to-[#071A36] dark:from-[#FFF0C2] dark:via-[#F3D98B] dark:to-[#D4AF37] tracking-tight group-hover:scale-105 transition-transform duration-300">
                         4.9 / 5
                     </span>
+
                     <span class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-semibold mt-1">
                         {{ $isAr ? 'تقييم كبار الاستشاريين' : 'Consultant Verified Rating' }}
                     </span>
+
+                    <span class="mt-2 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono text-amber-600 dark:text-amber-400 bg-amber-500/10 font-medium">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                        {{ $isAr ? 'تقييمات مهندسين فعليين' : 'Verified Reviews' }}
+                    </span>
                 </div>
+
             </div>
         </div>
     </section>
@@ -630,7 +705,7 @@
                         </div>
 
                         <!-- Secondary Floating Photo Inset: Real Architectural Blueprint Drafting -->
-                        <div class="absolute -bottom-8 {{ $isAr ? '-left-6' : '-right-6' }} w-44 sm:w-56 rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-[#071A36] hidden md:block z-20 group/inset">
+                        <div class="absolute -bottom-8 {{ $isAr ? '-left-6' : '-right-6' }} w-44 sm:w-56 rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-[#071A36] hidden md:block z-20 group/inset animate-float-slow">
                             <img 
                                 src="{{ asset('images/about/about_arch_drafting.jpg') }}" 
                                 alt="Authentic Architectural Drafting and CD Drawings" 
@@ -678,12 +753,12 @@
                         {{ $isAr ? 'بيفور بيم هي أكاديمية هندسية رائدة مقرها القاهرة، متخصصة في تأهيل المهندسين المعماريين والمدنيين ومهندسي الكهروميكانيك (MEP) ليصبحوا مدراء ومنسقي BIM محترفين. نسد الفجوة بين التعليم الجامعي النظري ومتطلبات كبرى المشاريع عبر التدريب على نماذج حقيقية وحل التعارضات والتصميم البرمجي.' : 'Beforbim is an accredited engineering institute headquartered in Cairo, Egypt, dedicated to upskilling architects, civil engineers, and MEP specialists into internationally certified BIM Managers. We bridge the critical gap between theoretical university curriculums and high-stakes megaproject execution through production-grade modeling, automated clash resolution, and computational design.' }}
                     </p>
 
-                    <!-- 4-Grid Key Features -->
+                    <!-- 4-Grid Key Features with Hover Lift and Card Sheen -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                         
                         <!-- Feature 1 -->
-                        <div class="p-4 rounded-2xl bg-white dark:bg-[#071A36]/80 border border-slate-200 dark:border-white/10 shadow-sm space-y-1.5">
-                            <div class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-white/5 text-[#D4AF37] flex items-center justify-center font-bold text-sm">
+                        <div class="group card-sheen hover-lift p-4 rounded-2xl bg-white dark:bg-[#071A36]/80 border border-slate-200 dark:border-white/10 hover:border-[#D4AF37]/50 transition-all shadow-sm space-y-1.5">
+                            <div class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-white/5 text-[#D4AF37] flex items-center justify-center font-bold text-sm transition-transform duration-300 group-hover:scale-110 group-hover:bg-[#D4AF37]/15">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                             </div>
                             <h4 class="text-xs font-bold text-[#071A36] dark:text-white font-['Outfit']">{{ $isAr ? 'معايير ISO 19650 الدولية' : 'ISO 19650 Standards' }}</h4>
@@ -693,8 +768,8 @@
                         </div>
 
                         <!-- Feature 2 -->
-                        <div class="p-4 rounded-2xl bg-white dark:bg-[#071A36]/80 border border-slate-200 dark:border-white/10 shadow-sm space-y-1.5">
-                            <div class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-white/5 text-[#D4AF37] flex items-center justify-center font-bold text-sm">
+                        <div class="group card-sheen hover-lift p-4 rounded-2xl bg-white dark:bg-[#071A36]/80 border border-slate-200 dark:border-white/10 hover:border-[#D4AF37]/50 transition-all shadow-sm space-y-1.5">
+                            <div class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-white/5 text-[#D4AF37] flex items-center justify-center font-bold text-sm transition-transform duration-300 group-hover:scale-110 group-hover:bg-[#D4AF37]/15">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
                             </div>
                             <h4 class="text-xs font-bold text-[#071A36] dark:text-white font-['Outfit']">{{ $isAr ? 'مشاريع حقيقية عملاقة' : 'Real Megaproject Datasets' }}</h4>
@@ -704,8 +779,8 @@
                         </div>
 
                         <!-- Feature 3 -->
-                        <div class="p-4 rounded-2xl bg-white dark:bg-[#071A36]/80 border border-slate-200 dark:border-white/10 shadow-sm space-y-1.5">
-                            <div class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-white/5 text-[#D4AF37] flex items-center justify-center font-bold text-sm">
+                        <div class="group card-sheen hover-lift p-4 rounded-2xl bg-white dark:bg-[#071A36]/80 border border-slate-200 dark:border-white/10 hover:border-[#D4AF37]/50 transition-all shadow-sm space-y-1.5">
+                            <div class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-white/5 text-[#D4AF37] flex items-center justify-center font-bold text-sm transition-transform duration-300 group-hover:scale-110 group-hover:bg-[#D4AF37]/15">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                             </div>
                             <h4 class="text-xs font-bold text-[#071A36] dark:text-white font-['Outfit']">{{ $isAr ? 'نخبة من كبار الاستشاريين' : 'Practicing Faculty' }}</h4>
@@ -715,8 +790,8 @@
                         </div>
 
                         <!-- Feature 4 -->
-                        <div class="p-4 rounded-2xl bg-white dark:bg-[#071A36]/80 border border-slate-200 dark:border-white/10 shadow-sm space-y-1.5">
-                            <div class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-white/5 text-[#D4AF37] flex items-center justify-center font-bold text-sm">
+                        <div class="group card-sheen hover-lift p-4 rounded-2xl bg-white dark:bg-[#071A36]/80 border border-slate-200 dark:border-white/10 hover:border-[#D4AF37]/50 transition-all shadow-sm space-y-1.5">
+                            <div class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-white/5 text-[#D4AF37] flex items-center justify-center font-bold text-sm transition-transform duration-300 group-hover:scale-110 group-hover:bg-[#D4AF37]/15">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                             </div>
                             <h4 class="text-xs font-bold text-[#071A36] dark:text-white font-['Outfit']">{{ $isAr ? 'شبكة توظيف وشراكات' : 'Career Placement' }}</h4>
@@ -774,8 +849,9 @@
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
                 
                 <!-- 1. Dar Al-Handasah -->
-                <div class="group p-4 rounded-2xl bg-slate-50/80 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37]/50 dark:hover:border-[#D4AF37]/50 hover:shadow-lg hover:shadow-[#071A36]/5 dark:hover:shadow-black/20 hover:-translate-y-1 transition-all duration-300 text-center flex flex-col items-center justify-between">
-                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-[#071A36] to-[#1E3A8A] text-white flex items-center justify-center font-black font-['Outfit'] text-xs shadow-md shadow-[#071A36]/15 group-hover:scale-105 transition-transform mb-3">
+                <div class="group card-sheen hover-lift p-4 rounded-2xl bg-slate-50/80 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37]/60 dark:hover:border-[#D4AF37]/60 hover:shadow-xl hover:shadow-[#D4AF37]/10 transition-all duration-300 text-center flex flex-col items-center justify-between relative overflow-hidden">
+                    <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-[#071A36] to-[#1E3A8A] text-white flex items-center justify-center font-black font-['Outfit'] text-xs shadow-md shadow-[#071A36]/15 group-hover:scale-110 group-hover:rotate-3 transition-transform mb-3">
                         DH
                     </div>
                     <div>
@@ -794,8 +870,9 @@
                 </div>
 
                 <!-- 2. Orascom Construction -->
-                <div class="group p-4 rounded-2xl bg-slate-50/80 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37]/50 dark:hover:border-[#D4AF37]/50 hover:shadow-lg hover:shadow-[#071A36]/5 dark:hover:shadow-black/20 hover:-translate-y-1 transition-all duration-300 text-center flex flex-col items-center justify-between">
-                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-[#E06D12] to-[#9A3412] text-white flex items-center justify-center font-black font-['Outfit'] text-xs shadow-md shadow-orange-500/15 group-hover:scale-105 transition-transform mb-3">
+                <div class="group card-sheen hover-lift p-4 rounded-2xl bg-slate-50/80 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37]/60 dark:hover:border-[#D4AF37]/60 hover:shadow-xl hover:shadow-[#D4AF37]/10 transition-all duration-300 text-center flex flex-col items-center justify-between relative overflow-hidden">
+                    <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-[#E06D12] to-[#9A3412] text-white flex items-center justify-center font-black font-['Outfit'] text-xs shadow-md shadow-orange-500/15 group-hover:scale-110 group-hover:-rotate-3 transition-transform mb-3">
                         OC
                     </div>
                     <div>
@@ -814,8 +891,9 @@
                 </div>
 
                 <!-- 3. Hassan Allam Holding -->
-                <div class="group p-4 rounded-2xl bg-slate-50/80 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37]/50 dark:hover:border-[#D4AF37]/50 hover:shadow-lg hover:shadow-[#071A36]/5 dark:hover:shadow-black/20 hover:-translate-y-1 transition-all duration-300 text-center flex flex-col items-center justify-between">
-                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-[#0284C7] to-[#0369A1] text-white flex items-center justify-center font-black font-['Outfit'] text-xs shadow-md shadow-sky-500/15 group-hover:scale-105 transition-transform mb-3">
+                <div class="group card-sheen hover-lift p-4 rounded-2xl bg-slate-50/80 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37]/60 dark:hover:border-[#D4AF37]/60 hover:shadow-xl hover:shadow-[#D4AF37]/10 transition-all duration-300 text-center flex flex-col items-center justify-between relative overflow-hidden">
+                    <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-[#0284C7] to-[#0369A1] text-white flex items-center justify-center font-black font-['Outfit'] text-xs shadow-md shadow-sky-500/15 group-hover:scale-110 group-hover:rotate-3 transition-transform mb-3">
                         HA
                     </div>
                     <div>
@@ -834,8 +912,9 @@
                 </div>
 
                 <!-- 4. Khatib & Alami -->
-                <div class="group p-4 rounded-2xl bg-slate-50/80 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37]/50 dark:hover:border-[#D4AF37]/50 hover:shadow-lg hover:shadow-[#071A36]/5 dark:hover:shadow-black/20 hover:-translate-y-1 transition-all duration-300 text-center flex flex-col items-center justify-between">
-                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-[#0F766E] to-[#115E59] text-white flex items-center justify-center font-black font-['Outfit'] text-xs shadow-md shadow-teal-500/15 group-hover:scale-105 transition-transform mb-3">
+                <div class="group card-sheen hover-lift p-4 rounded-2xl bg-slate-50/80 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37]/60 dark:hover:border-[#D4AF37]/60 hover:shadow-xl hover:shadow-[#D4AF37]/10 transition-all duration-300 text-center flex flex-col items-center justify-between relative overflow-hidden">
+                    <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-[#0F766E] to-[#115E59] text-white flex items-center justify-center font-black font-['Outfit'] text-xs shadow-md shadow-teal-500/15 group-hover:scale-110 group-hover:-rotate-3 transition-transform mb-3">
                         K&A
                     </div>
                     <div>
@@ -854,8 +933,9 @@
                 </div>
 
                 <!-- 5. Shaker Consultancy -->
-                <div class="group p-4 rounded-2xl bg-slate-50/80 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37]/50 dark:hover:border-[#D4AF37]/50 hover:shadow-lg hover:shadow-[#071A36]/5 dark:hover:shadow-black/20 hover:-translate-y-1 transition-all duration-300 text-center flex flex-col items-center justify-between">
-                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-[#4338CA] to-[#312E81] text-white flex items-center justify-center font-black font-['Outfit'] text-xs shadow-md shadow-indigo-500/15 group-hover:scale-105 transition-transform mb-3">
+                <div class="group card-sheen hover-lift p-4 rounded-2xl bg-slate-50/80 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37]/60 dark:hover:border-[#D4AF37]/60 hover:shadow-xl hover:shadow-[#D4AF37]/10 transition-all duration-300 text-center flex flex-col items-center justify-between relative overflow-hidden">
+                    <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-[#4338CA] to-[#312E81] text-white flex items-center justify-center font-black font-['Outfit'] text-xs shadow-md shadow-indigo-500/15 group-hover:scale-110 group-hover:rotate-3 transition-transform mb-3">
                         SC
                     </div>
                     <div>
@@ -874,8 +954,9 @@
                 </div>
 
                 <!-- 6. ECG Consultants -->
-                <div class="group p-4 rounded-2xl bg-slate-50/80 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37]/50 dark:hover:border-[#D4AF37]/50 hover:shadow-lg hover:shadow-[#071A36]/5 dark:hover:shadow-black/20 hover:-translate-y-1 transition-all duration-300 text-center flex flex-col items-center justify-between">
-                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-[#475569] to-[#1E293B] text-white flex items-center justify-center font-black font-['Outfit'] text-xs shadow-md shadow-slate-700/15 group-hover:scale-105 transition-transform mb-3">
+                <div class="group card-sheen hover-lift p-4 rounded-2xl bg-slate-50/80 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 hover:border-[#D4AF37]/60 dark:hover:border-[#D4AF37]/60 hover:shadow-xl hover:shadow-[#D4AF37]/10 transition-all duration-300 text-center flex flex-col items-center justify-between relative overflow-hidden">
+                    <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-[#475569] to-[#1E293B] text-white flex items-center justify-center font-black font-['Outfit'] text-xs shadow-md shadow-slate-700/15 group-hover:scale-110 group-hover:-rotate-3 transition-transform mb-3">
                         ECG
                     </div>
                     <div>
@@ -887,12 +968,22 @@
                         </span>
                     </div>
                     <div class="mt-3 pt-2 w-full border-t border-slate-200/60 dark:border-white/5">
-                        <span class="text-[9px] font-mono    <!-- 5. Interactive BIM Engineering Roadmap (The 4-Step Mastery Path with Alpine.js Motion) -->
+                        <span class="text-[9px] font-mono font-semibold text-emerald-600 dark:text-emerald-400 block truncate">
+                            {{ $isAr ? '• مشاريع البنية التحتية' : '• Mega Infrastructure' }}
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Interactive BIM Engineering Roadmap (The 4-Step Mastery Path with Alpine.js Motion) -->
     <section 
         class="py-16 lg:py-24 bg-slate-50/70 dark:bg-[#061224] border-b border-slate-200/80 dark:border-white/10 transition-colors duration-200 relative overflow-hidden"
         x-data="{
             activeStep: 0,
-            steps: @json($isAr ? [
+            steps: @js($isAr ? [
                 [
                     'phase' => 'المرحلة 01',
                     'badge' => 'أساسيات LOD 300',
@@ -1014,18 +1105,20 @@
                     <template x-for="(step, index) in steps" :key="index">
                         <div 
                             @click="activeStep = index"
-                            class="p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex items-center justify-between gap-4 group"
+                            class="p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex items-center justify-between gap-4 group hover-lift relative overflow-hidden"
                             :class="activeStep === index 
-                                ? 'bg-[#071A36] text-white shadow-xl shadow-[#071A36]/15 dark:bg-[#071A36] border-[#D4AF37] {{ $isAr ? '-translate-x-1' : 'translate-x-1' }}' 
+                                ? 'bg-[#071A36] text-white shadow-xl shadow-[#071A36]/25 dark:bg-[#071A36] border-[#D4AF37] {{ $isAr ? '-translate-x-1.5' : 'translate-x-1.5' }}' 
                                 : 'bg-white dark:bg-[#071A36]/50 border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-white/20 hover:bg-slate-50'"
                         >
+                            <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-0 transition-opacity duration-300" :class="activeStep === index ? 'opacity-100' : 'group-hover:opacity-60'"></div>
+
                             <div class="flex items-center gap-4">
                                 <!-- Step Number Badge -->
                                 <span 
-                                    class="w-10 h-10 rounded-xl flex items-center justify-center font-mono font-black text-sm shrink-0 transition-colors"
+                                    class="w-10 h-10 rounded-xl flex items-center justify-center font-mono font-black text-sm shrink-0 transition-all duration-300"
                                     :class="activeStep === index 
-                                        ? 'bg-[#D4AF37] text-[#040E1E] shadow-md shadow-[#D4AF37]/40' 
-                                        : 'bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 group-hover:text-[#D4AF37]'"
+                                        ? 'bg-[#D4AF37] text-[#040E1E] shadow-md shadow-[#D4AF37]/50 scale-105' 
+                                        : 'bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 group-hover:text-[#D4AF37] group-hover:scale-105'"
                                     x-text="'0' + (index + 1)"
                                 ></span>
 
@@ -1052,7 +1145,7 @@
                             <!-- Right Arrow Indicator -->
                             <div 
                                 class="w-7 h-7 rounded-lg flex items-center justify-center transition-transform shrink-0"
-                                :class="activeStep === index ? 'text-[#F3D98B] {{ $isAr ? '-translate-x-0.5' : 'translate-x-0.5' }}' : 'text-slate-400 opacity-60 group-hover:opacity-100'"
+                                :class="activeStep === index ? 'text-[#F3D98B] {{ $isAr ? '-translate-x-1' : 'translate-x-1' }}' : 'text-slate-400 opacity-60 group-hover:opacity-100'"
                             >
                                 <svg class="w-4 h-4 {{ $isAr ? 'rotate-180' : '' }}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
                             </div>
@@ -1066,18 +1159,18 @@
                         
                         <!-- Blueprint Grid Background Texture -->
                         <div class="absolute inset-0 bg-blueprint-grid opacity-20 pointer-events-none"></div>
-                        <div class="absolute -top-20 -right-20 w-64 h-64 bg-[#D4AF37]/15 rounded-full blur-3xl pointer-events-none"></div>
+                        <div class="absolute -top-20 -right-20 w-64 h-64 bg-[#D4AF37]/15 rounded-full blur-3xl pointer-events-none animate-pulse-soft"></div>
 
                         <div class="relative z-10 space-y-6">
                             
                             <!-- Header Badges -->
                             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-5">
-                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-[#D4AF37]/30 text-[#F3D98B] text-xs font-semibold backdrop-blur-md">
-                                    <span class="w-2 h-2 rounded-full bg-[#D4AF37]"></span>
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-[#D4AF37]/30 text-[#F3D98B] text-xs font-semibold backdrop-blur-md shadow-xs">
+                                    <span class="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse"></span>
                                     <span x-text="steps[activeStep].badge"></span>
                                 </div>
 
-                                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs font-bold">
+                                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs font-bold shadow-xs">
                                     <span>{{ $isAr ? 'المسمى المكتسب:' : 'Outcome:' }}</span>
                                     <span x-text="steps[activeStep].outcome"></span>
                                 </div>
@@ -1102,7 +1195,7 @@
                                 </span>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                                     <template x-for="(item, i) in steps[activeStep].deliverables" :key="i">
-                                        <div class="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-slate-200">
+                                        <div class="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#D4AF37]/50 text-xs text-slate-200 transition-all card-sheen hover-lift">
                                             <svg class="w-4 h-4 text-[#D4AF37] shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                                             <span x-text="item"></span>
                                         </div>
@@ -1116,7 +1209,7 @@
                                     <span class="text-[10px] uppercase tracking-wider text-slate-400 font-mono block mb-1.5">{{ $isAr ? 'البرامج والأدوات:' : 'Software Tools:' }}</span>
                                     <div class="flex flex-wrap items-center gap-2">
                                         <template x-for="(soft, s) in steps[activeStep].software" :key="s">
-                                            <span class="px-2.5 py-1 rounded-lg bg-white/10 text-[#F3D98B] text-xs font-mono font-semibold" x-text="soft"></span>
+                                            <span class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-[#D4AF37]/20 hover:text-[#F3D98B] border border-white/5 hover:border-[#D4AF37]/30 text-xs font-mono font-semibold transition-all cursor-default" x-text="soft"></span>
                                         </template>
                                     </div>
                                 </div>
@@ -1134,7 +1227,7 @@
                             <span class="text-xs text-slate-300 font-light">{{ $isAr ? 'جاهز لبدء هذه المرحلة؟' : 'Ready to start this phase?' }}</span>
                             <a 
                                 href="{{ route('courses.index') }}" 
-                                class="px-5 py-2 rounded-full text-xs font-bold bg-[#D4AF37] hover:bg-[#F3D98B] text-[#040E1E] transition-all flex items-center gap-1.5 shadow-md shadow-[#D4AF37]/30"
+                                class="px-5 py-2 rounded-full text-xs font-bold bg-[#D4AF37] hover:bg-[#F3D98B] text-[#040E1E] transition-all flex items-center gap-1.5 shadow-md shadow-[#D4AF37]/30 hover:scale-105 active:scale-95"
                             >
                                 <span>{{ $isAr ? 'استعرض دورات المرحلة' : 'Browse Phase Courses' }}</span>
                                 <span>&rarr;</span>
@@ -1677,15 +1770,16 @@
                     <div class="pt-4 flex flex-wrap items-center gap-4">
                         <a 
                             href="{{ route('register') }}" 
-                            class="px-8 py-3.5 rounded-full text-sm font-bold bg-[#D4AF37] hover:bg-[#F3D98B] text-[#040E1E] shadow-xl shadow-[#D4AF37]/25 transition-all flex items-center gap-2"
+                            class="relative px-8 py-3.5 rounded-full text-sm font-black bg-[#D4AF37] hover:bg-[#F3D98B] text-[#040E1E] shadow-xl shadow-[#D4AF37]/30 hover:shadow-2xl hover:shadow-[#D4AF37]/50 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 overflow-hidden group"
                         >
+                            <span class="absolute inset-0 w-1/2 h-full bg-white/30 transform -skew-x-12 -translate-x-full group-hover:translate-x-[300%] transition-transform duration-700 ease-out pointer-events-none"></span>
                             <span>{{ $isAr ? 'سجل في الدبلومات الآن' : 'Enroll in Masterclasses' }}</span>
-                            <svg class="w-4 h-4 {{ $isAr ? 'rotate-180' : '' }}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                            <svg class="w-4 h-4 {{ $isAr ? 'rotate-180' : '' }} transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                         </a>
 
                         <a 
                             href="{{ route('courses.index') }}" 
-                            class="px-7 py-3.5 rounded-full text-sm font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-md transition-all flex items-center gap-2"
+                            class="px-7 py-3.5 rounded-full text-sm font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-white/40 backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
                         >
                             <span>{{ $isAr ? 'استعرض دليل الدورات' : 'Explore Course Catalog' }}</span>
                             <span class="{{ $isAr ? 'rotate-180 inline-block' : '' }}">&rarr;</span>
@@ -1695,12 +1789,13 @@
 
                 <!-- Right Column: Interactive Graduate Impact & Credential Verification Showcase -->
                 <div class="lg:col-span-5 relative">
-                    <div class="relative rounded-3xl p-6 sm:p-8 bg-gradient-to-b from-[#071A36] to-[#051329] border border-[#D4AF37]/30 shadow-2xl space-y-6">
+                    <div class="relative rounded-3xl p-6 sm:p-8 bg-gradient-to-b from-[#071A36] to-[#051329] border border-[#D4AF37]/40 shadow-2xl space-y-6 card-sheen hover-lift">
+                        <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent"></div>
                         
                         <!-- Top Header with Verified Seal -->
                         <div class="flex items-center justify-between border-b border-white/10 pb-5">
                             <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-2xl bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center">
+                                <div class="w-10 h-10 rounded-2xl bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center shadow-xs">
                                     <img src="{{ asset('images/branding/logo.png') }}" alt="Beforbim" class="w-6 h-6 object-contain">
                                 </div>
                                 <div>

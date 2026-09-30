@@ -226,4 +226,69 @@ html {
     animation: beam-glow 3s ease-in-out infinite;
 }
 
+/* Micro-Interaction & Modern Motion Utilities */
+@keyframes float-slow {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-6px) rotate(0.5deg); }
+}
+
+@keyframes pulse-soft {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 0.95; transform: scale(1.03); }
+}
+
+@keyframes card-shine {
+    0% { transform: translateX(-100%) rotate(45deg); }
+    100% { transform: translateX(200%) rotate(45deg); }
+}
+
+.animate-float-slow {
+    animation: float-slow 7s ease-in-out infinite;
+}
+
+.animate-pulse-soft {
+    animation: pulse-soft 4s ease-in-out infinite;
+}
+
+/* Diagonal Light Sweep Effect on Cards */
+.card-sheen {
+    position: relative;
+    overflow: hidden;
+}
+
+.card-sheen::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        60deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.12) 50%,
+        transparent 70%
+    );
+    transform: translateX(-100%) rotate(35deg);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+}
+
+.card-sheen:hover::after {
+    transform: translateX(100%) rotate(35deg);
+}
+
+/* Smooth Lift on Hover */
+.hover-lift {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+}
+
+.gold-glow-hover:hover {
+    box-shadow: 0 10px 25px -5px rgba(212, 175, 55, 0.25), 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
 
