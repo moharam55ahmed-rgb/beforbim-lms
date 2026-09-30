@@ -7,6 +7,10 @@ $_ENV['VERCEL'] = '1';
 $_SERVER['VERCEL'] = '1';
 putenv('VERCEL=1');
 
+// Normalize script name so Symfony/Laravel Request does not treat '/api' as the base URL
+$_SERVER['SCRIPT_NAME'] = '/index.php';
+$_SERVER['PHP_SELF'] = '/index.php';
+
 // Setup writable directories in /tmp for AWS Lambda / Vercel
 $storageDirectories = [
     '/tmp/storage/app/public',
