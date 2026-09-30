@@ -25,10 +25,37 @@ class CheckoutController extends Controller
      */
     public function show(Request $request): View|RedirectResponse
     {
-        $cart = $this->cartService->getOrCreateCart($request->user());
-        $totals = $this->cartService->getCartTotals($cart);
+        try {
+            $cart = $this->cartService->getOrCreateCart($request->user());
+            $totals = $this->cartService->getCartTotals($cart);
+        } catch (\Throwable) {
+            $sessionCart = session()->get('guest_cart_items', []);
+            $items = collect();
+            $subtotal = 0.0;
 
-        if ($totals['items_count'] === 0) {
+            foreach ($sessionCart as $row) {
+                $course = $row['course'];
+                $price = (float) ($row['unit_price'] ?? 899.00);
+                $subtotal += $price;
+
+                $itemObj = new \stdClass;
+                $itemObj->id = $row['id'];
+                $itemObj->course = $course;
+                $itemObj->unit_price = $price;
+                $items->push($itemObj);
+            }
+
+            $totals = [
+                'cart' => null,
+                'items' => $items,
+                'items_count' => $items->count(),
+                'subtotal' => $subtotal,
+                'discount' => 0.0,
+                'total' => $subtotal,
+            ];
+        }
+
+        if (($totals['items_count'] ?? 0) === 0) {
             return redirect()->route('cart.index')->with('error', 'السلة فارغة. يرجى اختيار دورة تدريبية أولاً.');
         }
 

@@ -136,7 +136,7 @@ class CourseController extends Controller
     /**
      * Get a specific fallback Course model by ID or slug.
      */
-    protected function getFallbackCourseModel(string|int|Course $idOrSlug): ?Course
+    public function getFallbackCourseModel(string|int|Course $idOrSlug): ?Course
     {
         $courses = $this->getAllFallbackCourseModels();
         $target = $idOrSlug instanceof Course ? $idOrSlug->id : $idOrSlug;
@@ -155,7 +155,7 @@ class CourseController extends Controller
      *
      * @return array<int, Course>
      */
-    protected function getAllFallbackCourseModels(): array
+    public function getAllFallbackCourseModels(): array
     {
         $instructor = new User([
             'name' => 'م. خالد الدوسري',
