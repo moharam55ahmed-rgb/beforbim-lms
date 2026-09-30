@@ -78,7 +78,7 @@ class InstructorController extends Controller
     /**
      * Display the specified instructor.
      */
-    public function show(string|int|User $user): JsonResponse
+    public function show(mixed $user): JsonResponse
     {
         try {
             $userModel = $user instanceof User ? $user : User::find($user);

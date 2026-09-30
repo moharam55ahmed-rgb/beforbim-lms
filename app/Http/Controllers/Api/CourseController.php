@@ -119,7 +119,7 @@ class CourseController extends Controller
     /**
      * Display the specified published course.
      */
-    public function show(string|int|Course $course): JsonResponse
+    public function show(mixed $course): JsonResponse
     {
         try {
             $courseModel = $course instanceof Course ? $course : Course::find($course);
