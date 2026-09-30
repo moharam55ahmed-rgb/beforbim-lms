@@ -29,6 +29,8 @@ $app = Application::configure(basePath: dirname(__DIR__))
             EnsureAccountIsActive::class,
             EnforceSingleDeviceSession::class,
         ]);
+
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
