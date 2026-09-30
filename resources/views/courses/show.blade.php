@@ -84,7 +84,7 @@
                         >
                         <div>
                             <span class="text-[10px] text-slate-400 block font-mono">{{ $isAr ? 'الاستشاري والمحاضر:' : 'Lead Consultant:' }}</span>
-                            <a href="{{ route('instructors.show', $course->instructor_id) }}" class="font-bold text-white hover:text-[#F3D98B] transition">
+                            <a href="{{ $course->instructor_id ? route('instructors.show', $course->instructor_id) : route('instructors.index') }}" class="font-bold text-white hover:text-[#F3D98B] transition">
                                 {{ $course->instructor?->name ?: 'Eng. Khaled Mostafa' }}
                             </a>
                         </div>
@@ -401,7 +401,7 @@
                                 <div class="space-y-2 flex-1">
                                     <div class="flex flex-wrap items-center justify-between gap-2">
                                         <h4 class="text-lg font-bold text-slate-900 dark:text-white font-['Outfit']">
-                                            <a href="{{ route('instructors.show', $course->instructor_id) }}" class="hover:text-[#96720D] dark:hover:text-[#F3D98B] transition">
+                                            <a href="{{ $course->instructor_id ? route('instructors.show', $course->instructor_id) : route('instructors.index') }}" class="hover:text-[#96720D] dark:hover:text-[#F3D98B] transition">
                                                 {{ $course->instructor?->name ?: 'Senior BIM Consultant' }}
                                             </a>
                                         </h4>
