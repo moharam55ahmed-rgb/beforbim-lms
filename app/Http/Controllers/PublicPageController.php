@@ -293,19 +293,29 @@ class PublicPageController extends Controller
     /**
      * Display a specific instructor's profile.
      */
-    public function instructorShow(User $user): View
+    public function instructorShow(mixed $user): View
     {
-        if (! $user->hasRole('instructor')) {
+        try {
+            $userModel = $user instanceof User ? $user : User::find($user);
+
+            if (! $userModel || ! $userModel->hasRole('instructor')) {
+                abort(404);
+            }
+
+            try {
+                $userModel->load(['instructorProfile', 'courses' => function ($q) {
+                    $q->published()->with('category');
+                }]);
+            } catch (\Throwable) {
+                // Ignore relation loading error
+            }
+
+            return view('pages.instructor-show', [
+                'cms' => $this->cms,
+                'instructor' => $userModel,
+            ]);
+        } catch (\Throwable) {
             abort(404);
         }
-
-        $user->load(['instructorProfile', 'courses' => function ($q) {
-            $q->published()->with('category');
-        }]);
-
-        return view('pages.instructor-show', [
-            'cms' => $this->cms,
-            'instructor' => $user,
-        ]);
     }
 }

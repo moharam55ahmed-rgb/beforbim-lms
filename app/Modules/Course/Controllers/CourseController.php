@@ -58,7 +58,7 @@ class CourseController extends Controller
     /**
      * Display the course details page.
      */
-    public function show(string|int|Course $course): View
+    public function show(mixed $course): View
     {
         try {
             $courseModel = $course instanceof Course ? $course : Course::find($course);
