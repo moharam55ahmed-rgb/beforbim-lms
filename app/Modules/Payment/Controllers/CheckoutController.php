@@ -4,6 +4,7 @@ namespace App\Modules\Payment\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Cart\Services\CartService;
+use App\Modules\Course\Controllers\CourseController;
 use App\Modules\Order\Services\OrderService;
 use App\Modules\Payment\Services\PaymentService;
 use Illuminate\Http\RedirectResponse;
@@ -29,20 +30,23 @@ class CheckoutController extends Controller
             $cart = $this->cartService->getOrCreateCart($request->user());
             $totals = $this->cartService->getCartTotals($cart);
         } catch (\Throwable) {
-            $sessionCart = session()->get('guest_cart_items', []);
+            $ids = session()->get('guest_cart_course_ids', []);
+            $courseController = app(CourseController::class);
             $items = collect();
             $subtotal = 0.0;
 
-            foreach ($sessionCart as $row) {
-                $course = $row['course'];
-                $price = (float) ($row['unit_price'] ?? 899.00);
-                $subtotal += $price;
+            foreach ($ids as $id) {
+                $course = $courseController->getFallbackCourseModel($id);
+                if ($course) {
+                    $price = (float) ($course->sale_price ?? $course->price ?? 899.00);
+                    $subtotal += $price;
 
-                $itemObj = new \stdClass;
-                $itemObj->id = $row['id'];
-                $itemObj->course = $course;
-                $itemObj->unit_price = $price;
-                $items->push($itemObj);
+                    $itemObj = new \stdClass;
+                    $itemObj->id = (int) $course->id;
+                    $itemObj->course = $course;
+                    $itemObj->unit_price = $price;
+                    $items->push($itemObj);
+                }
             }
 
             $totals = [

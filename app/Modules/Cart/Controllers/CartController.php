@@ -39,31 +39,35 @@ class CartController extends Controller
      */
     public function add(Request $request, mixed $course): RedirectResponse
     {
-        try {
-            $courseModel = $course instanceof Course ? $course : Course::find($course);
-
-            if (! $courseModel) {
-                $courseModel = app(CourseController::class)
-                    ->getFallbackCourseModel($course);
-            }
-
-            if (! $courseModel) {
-                return redirect()->route('courses.index')->with('error', 'الدورة غير موجودة.');
-            }
-
+        $courseModel = null;
+        if ($course instanceof Course) {
+            $courseModel = $course;
+        } else {
             try {
-                $cart = $this->cartService->getOrCreateCart($request->user(), session()->getId());
-                $this->cartService->addItem($cart, $courseModel);
+                $courseModel = Course::find($course);
             } catch (\Throwable) {
-                $this->addItemToSessionCart($courseModel);
+                $courseModel = null;
             }
-
-            $title = $courseModel->title_ar ?: ($courseModel->title_en ?: $courseModel->title);
-
-            return redirect()->route('cart.index')->with('success', "تمت إضافة '{$title}' إلى سلة المشتريات.");
-        } catch (\Throwable) {
-            return redirect()->route('cart.index')->with('error', 'تعذر إضافة الدورة إلى السلة.');
         }
+
+        if (! $courseModel) {
+            $courseModel = app(CourseController::class)->getFallbackCourseModel($course);
+        }
+
+        if (! $courseModel) {
+            return redirect()->route('courses.index')->with('error', 'الدورة غير موجودة.');
+        }
+
+        try {
+            $cart = $this->cartService->getOrCreateCart($request->user(), session()->getId());
+            $this->cartService->addItem($cart, $courseModel);
+        } catch (\Throwable) {
+            $this->addItemToSessionCart($courseModel);
+        }
+
+        $title = $courseModel->title_ar ?: ($courseModel->title_en ?: $courseModel->title);
+
+        return redirect()->route('cart.index')->with('success', "تمت إضافة '{$title}' إلى سلة المشتريات.");
     }
 
     /**
@@ -75,7 +79,7 @@ class CartController extends Controller
             $cart = $this->cartService->getOrCreateCart($request->user(), session()->getId());
             $this->cartService->removeItem($cart, (int) $itemId);
         } catch (\Throwable) {
-            $this->removeItemFromSessionCart((string) $itemId);
+            $this->removeItemFromSessionCart($itemId);
         }
 
         return redirect()->route('cart.index')->with('success', 'تم حذف العنصر من السلة.');
@@ -86,26 +90,22 @@ class CartController extends Controller
      */
     protected function addItemToSessionCart(Course $course): void
     {
-        $sessionCart = session()->get('guest_cart_items', []);
-        $price = (float) ($course->sale_price ?? $course->price ?? 899.00);
-
-        $sessionCart[(string) $course->id] = [
-            'id' => (int) $course->id,
-            'course' => $course,
-            'unit_price' => $price,
-        ];
-
-        session()->put('guest_cart_items', $sessionCart);
+        $ids = session()->get('guest_cart_course_ids', []);
+        $courseId = (int) $course->id;
+        if (! in_array($courseId, $ids, true)) {
+            $ids[] = $courseId;
+        }
+        session()->put('guest_cart_course_ids', $ids);
     }
 
     /**
      * Remove item from guest session cart.
      */
-    protected function removeItemFromSessionCart(string $itemId): void
+    protected function removeItemFromSessionCart(mixed $itemId): void
     {
-        $sessionCart = session()->get('guest_cart_items', []);
-        unset($sessionCart[$itemId]);
-        session()->put('guest_cart_items', $sessionCart);
+        $ids = session()->get('guest_cart_course_ids', []);
+        $ids = array_values(array_filter($ids, fn ($id) => (int) $id !== (int) $itemId));
+        session()->put('guest_cart_course_ids', $ids);
     }
 
     /**
@@ -115,20 +115,23 @@ class CartController extends Controller
      */
     protected function getSessionCartTotals(): array
     {
-        $sessionCart = session()->get('guest_cart_items', []);
+        $ids = session()->get('guest_cart_course_ids', []);
+        $courseController = app(CourseController::class);
         $items = collect();
         $subtotal = 0.0;
 
-        foreach ($sessionCart as $row) {
-            $course = $row['course'];
-            $price = (float) ($row['unit_price'] ?? 899.00);
-            $subtotal += $price;
+        foreach ($ids as $id) {
+            $course = $courseController->getFallbackCourseModel($id);
+            if ($course) {
+                $price = (float) ($course->sale_price ?? $course->price ?? 899.00);
+                $subtotal += $price;
 
-            $itemObj = new \stdClass;
-            $itemObj->id = $row['id'];
-            $itemObj->course = $course;
-            $itemObj->unit_price = $price;
-            $items->push($itemObj);
+                $itemObj = new \stdClass;
+                $itemObj->id = (int) $course->id;
+                $itemObj->course = $course;
+                $itemObj->unit_price = $price;
+                $items->push($itemObj);
+            }
         }
 
         return [
