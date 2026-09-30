@@ -9,6 +9,9 @@ use App\Modules\Course\Models\Course;
 use App\Modules\Course\Requests\StoreCourseRequest;
 use App\Modules\Course\Requests\UpdateCourseRequest;
 use App\Modules\Course\Services\CourseService;
+use App\Modules\Curriculum\Models\CourseSection;
+use App\Modules\Lesson\Models\Lesson;
+use App\Modules\User\Models\InstructorProfile;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -98,7 +101,11 @@ class CourseController extends Controller
 
             $course = $courseModel;
 
-            return view('courses.show', compact('course', 'relatedCourses'));
+            // Pre-render to ensure no unhandled database query throws inside blade
+            $view = view('courses.show', compact('course', 'relatedCourses'));
+            $view->render();
+
+            return $view;
         } catch (\Throwable) {
             $course = $this->getFallbackCourseModel($course);
             if (! $course) {
@@ -157,6 +164,15 @@ class CourseController extends Controller
             'avatar_url' => asset('images/instructors/khaled_avatar.jpg'),
         ]);
         $instructor->id = 279;
+
+        $instructorProfile = new InstructorProfile([
+            'bio_ar' => 'استشاري معتمد في هندسة نمذجة معلومات البناء وتنسيق المشروعات الهندسية الكبرى وفق معايير ISO 19650.',
+            'bio_en' => 'Senior engineering consultant with 15+ years delivering mega infrastructure and high-rise BIM projects. Certified BIM Manager and ISO 19650 trainer.',
+            'specialization' => 'BIM Architecture & Coordination',
+            'specialization_en' => 'Director of BIM & Digital Engineering Consulting',
+            'specialization_ar' => 'مدير استشارات هندسة الـ BIM والنمذجة الرقمية',
+        ]);
+        $instructor->setRelation('instructorProfile', $instructorProfile);
 
         $items = [
             [
@@ -244,10 +260,43 @@ class CourseController extends Controller
                 'status' => 'APPROVED',
             ]);
             $c->id = $item['id'];
+
+            $section1 = new CourseSection([
+                'title_ar' => 'الوحدة الأولى: أساسيات ومفاهيم النمذجة وإعداد بيئة المشروع المشتركة (CDE)',
+                'title_en' => 'Module 1: BIM Foundations, LOD 350 Standards & CDE Setup',
+                'order_index' => 1,
+            ]);
+            $section1->id = 1;
+            $section1->course_id = $c->id;
+
+            $lesson1 = new Lesson([
+                'title_ar' => 'مقدمة في معايير ISO 19650 ومتطلبات الـ BIM للمشاريع الكبرى',
+                'title_en' => 'Introduction to ISO 19650 & Enterprise BIM Workflow Requirements',
+                'duration_seconds' => 1800,
+                'is_preview' => true,
+                'order_index' => 1,
+            ]);
+            $lesson1->id = 1;
+            $lesson1->section_id = 1;
+
+            $lesson2 = new Lesson([
+                'title_ar' => 'إعداد الشبكات والمناسيب والإحداثيات الجغرافية المشتركة (Shared Coordinates)',
+                'title_en' => 'Project Coordinates Setup, Levels, Grids & Survey Alignment',
+                'duration_seconds' => 2400,
+                'is_preview' => false,
+                'order_index' => 2,
+            ]);
+            $lesson2->id = 2;
+            $lesson2->section_id = 1;
+
+            $section1->setRelation('lessons', collect([$lesson1, $lesson2]));
+
             $c->instructor_id = $instructor->id;
             $c->setRelation('instructor', $instructor);
+            $c->setRelation('instructorProfile', $instructorProfile);
             $c->setRelation('category', $cat);
-            $c->setRelation('sections', collect());
+            $c->setRelation('sections', collect([$section1]));
+            $c->setRelation('lessons', collect([$lesson1, $lesson2]));
             $c->setRelation('requirements', collect());
             $c->setRelation('approvedReviews', collect());
             $c->setRelation('announcements', collect());

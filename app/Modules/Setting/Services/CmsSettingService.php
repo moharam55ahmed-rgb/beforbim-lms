@@ -18,11 +18,15 @@ class CmsSettingService
      */
     public function get(string $key, mixed $default = null): mixed
     {
-        $cacheKey = self::CACHE_PREFIX.$key;
+        try {
+            $cacheKey = self::CACHE_PREFIX.$key;
 
-        return Cache::remember($cacheKey, self::CACHE_TTL, function () use ($key, $default) {
-            return CmsSetting::get($key, $default);
-        });
+            return Cache::remember($cacheKey, self::CACHE_TTL, function () use ($key, $default) {
+                return CmsSetting::get($key, $default);
+            });
+        } catch (\Throwable) {
+            return $default;
+        }
     }
 
     /**
@@ -55,22 +59,26 @@ class CmsSettingService
      */
     public function getAllGrouped(): array
     {
-        $settings = CmsSetting::all();
-        $grouped = [];
+        try {
+            $settings = CmsSetting::all();
+            $grouped = [];
 
-        foreach ($settings as $setting) {
-            $grouped[$setting->group][$setting->key] = [
-                'id' => $setting->id,
-                'key' => $setting->key,
-                'value' => $this->castValue($setting),
-                'raw_value' => $setting->value,
-                'type' => $setting->type,
-                'description' => $setting->description,
-                'is_public' => $setting->is_public,
-            ];
+            foreach ($settings as $setting) {
+                $grouped[$setting->group][$setting->key] = [
+                    'id' => $setting->id,
+                    'key' => $setting->key,
+                    'value' => $this->castValue($setting),
+                    'raw_value' => $setting->value,
+                    'type' => $setting->type,
+                    'description' => $setting->description,
+                    'is_public' => $setting->is_public,
+                ];
+            }
+
+            return $grouped;
+        } catch (\Throwable) {
+            return [];
         }
-
-        return $grouped;
     }
 
     /**
@@ -80,16 +88,20 @@ class CmsSettingService
      */
     public function getPublicSettings(): array
     {
-        return Cache::remember(self::CACHE_ALL_PUBLIC, self::CACHE_TTL, function () {
-            $publicSettings = CmsSetting::where('is_public', true)->get();
-            $result = [];
+        try {
+            return Cache::remember(self::CACHE_ALL_PUBLIC, self::CACHE_TTL, function () {
+                $publicSettings = CmsSetting::where('is_public', true)->get();
+                $result = [];
 
-            foreach ($publicSettings as $setting) {
-                $result[$setting->key] = $this->castValue($setting);
-            }
+                foreach ($publicSettings as $setting) {
+                    $result[$setting->key] = $this->castValue($setting);
+                }
 
-            return $result;
-        });
+                return $result;
+            });
+        } catch (\Throwable) {
+            return [];
+        }
     }
 
     /**
