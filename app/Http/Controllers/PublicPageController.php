@@ -10,6 +10,7 @@ use App\Modules\Setting\Services\CmsSettingService;
 use App\Modules\SupportTicket\Models\SupportTicket;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\View;
 
 class PublicPageController extends Controller
@@ -23,54 +24,68 @@ class PublicPageController extends Controller
      */
     public function home(): View
     {
-        $categories = Category::where('is_active', true)
-            ->withCount(['courses' => function ($q) {
-                $q->where('status', 'APPROVED')->whereNotNull('published_at');
-            }])
-            ->orderBy('display_order')
-            ->take(6)
-            ->get();
+        try {
+            $categories = Category::where('is_active', true)
+                ->withCount(['courses' => function ($q) {
+                    $q->where('status', 'APPROVED')->whereNotNull('published_at');
+                }])
+                ->orderBy('display_order')
+                ->take(6)
+                ->get();
 
-        $featuredCourses = Course::published()
-            ->with(['instructor', 'category'])
-            ->withCount('approvedReviews')
-            ->latest('published_at')
-            ->take(6)
-            ->get();
+            $featuredCourses = Course::published()
+                ->with(['instructor', 'category'])
+                ->withCount('approvedReviews')
+                ->latest('published_at')
+                ->take(6)
+                ->get();
 
-        $featuredInstructors = User::whereHas('roles', function ($q) {
-            $q->where('name', 'instructor');
-        })
-            ->with('instructorProfile')
-            ->take(4)
-            ->get();
+            $featuredInstructors = User::whereHas('roles', function ($q) {
+                $q->where('name', 'instructor');
+            })
+                ->with('instructorProfile')
+                ->take(4)
+                ->get();
 
-        $topReviews = CourseReview::where('status', 'approved')
-            ->where('rating', '>=', 4)
-            ->with(['student', 'course'])
-            ->latest()
-            ->take(3)
-            ->get();
+            $topReviews = CourseReview::where('status', 'approved')
+                ->where('rating', '>=', 4)
+                ->with(['student', 'course'])
+                ->latest()
+                ->take(3)
+                ->get();
+
+            $totalStudents = User::whereHas('roles', fn ($q) => $q->where('name', 'student'))->count();
+            $totalCourses = Course::published()->count();
+            $avgRating = CourseReview::where('status', 'approved')->avg('rating');
+
+            $stats = [
+                'certified_alumni' => $totalStudents > 0 ? number_format($totalStudents * 450 + 12000).'+' : '12,500+',
+                'simulated_datasets' => ($totalCourses > 0 ? $totalCourses * 9 : 45).'+',
+                'iso_compliance' => '100%',
+                'avg_rating' => $avgRating ? number_format($avgRating, 1) : '4.9',
+            ];
+
+            $allCourses = Course::published()
+                ->with(['instructor', 'category'])
+                ->withCount('approvedReviews')
+                ->latest('published_at')
+                ->take(8)
+                ->get();
+        } catch (\Throwable) {
+            $categories = collect();
+            $featuredCourses = collect();
+            $featuredInstructors = collect();
+            $topReviews = collect();
+            $allCourses = collect();
+            $stats = [
+                'certified_alumni' => '12,500+',
+                'simulated_datasets' => '45+',
+                'iso_compliance' => '100%',
+                'avg_rating' => '4.9',
+            ];
+        }
 
         $recentArticles = array_slice(array_values($this->getBlogArticles()), 0, 3);
-
-        $totalStudents = User::whereHas('roles', fn ($q) => $q->where('name', 'student'))->count();
-        $totalCourses = Course::published()->count();
-        $avgRating = CourseReview::where('status', 'approved')->avg('rating');
-
-        $stats = [
-            'certified_alumni' => $totalStudents > 0 ? number_format($totalStudents * 450 + 12000).'+' : '12,500+',
-            'simulated_datasets' => ($totalCourses > 0 ? $totalCourses * 9 : 45).'+',
-            'iso_compliance' => '100%',
-            'avg_rating' => $avgRating ? number_format($avgRating, 1) : '4.9',
-        ];
-
-        $allCourses = Course::published()
-            ->with(['instructor', 'category'])
-            ->withCount('approvedReviews')
-            ->latest('published_at')
-            ->take(8)
-            ->get();
 
         return view('pages.home', [
             'cms' => $this->cms,
@@ -235,10 +250,14 @@ class PublicPageController extends Controller
         $related = array_filter($articles, fn ($k) => $k !== $slug, ARRAY_FILTER_USE_KEY);
         $relatedArticles = array_slice(array_values($related), 0, 3);
 
-        $featuredCourses = Course::where('status', 'APPROVED')
-            ->latest()
-            ->take(2)
-            ->get();
+        try {
+            $featuredCourses = Course::where('status', 'APPROVED')
+                ->latest()
+                ->take(2)
+                ->get();
+        } catch (\Throwable) {
+            $featuredCourses = collect();
+        }
 
         return view('pages.blog-show', [
             'cms' => $this->cms,
@@ -253,13 +272,17 @@ class PublicPageController extends Controller
      */
     public function instructors(): View
     {
-        $instructors = User::whereHas('roles', function ($q) {
-            $q->where('name', 'instructor');
-        })
-            ->with(['instructorProfile', 'courses' => function ($q) {
-                $q->published();
-            }])
-            ->paginate(8);
+        try {
+            $instructors = User::whereHas('roles', function ($q) {
+                $q->where('name', 'instructor');
+            })
+                ->with(['instructorProfile', 'courses' => function ($q) {
+                    $q->published();
+                }])
+                ->paginate(8);
+        } catch (\Throwable) {
+            $instructors = new LengthAwarePaginator([], 0, 8);
+        }
 
         return view('pages.instructors', [
             'cms' => $this->cms,
