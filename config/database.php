@@ -17,20 +17,7 @@ return [
     |
     */
 
-    'default' => (function () {
-        $connection = env('DB_CONNECTION', 'sqlite');
-        if (str_starts_with($connection, 'mysql://') || str_starts_with($connection, 'mysql:')) {
-            return 'mysql';
-        }
-        if (str_starts_with($connection, 'pgsql://') || str_starts_with($connection, 'postgres://')) {
-            return 'pgsql';
-        }
-        if (str_starts_with($connection, 'sqlite://') || str_starts_with($connection, 'sqlite:')) {
-            return 'sqlite';
-        }
-
-        return $connection;
-    })(),
+    'default' => env('DB_CONNECTION', 'sqlite'),
 
     /*
     |--------------------------------------------------------------------------
@@ -59,17 +46,7 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'url' => (function () {
-                $dbUrl = env('DB_URL');
-                if (empty($dbUrl)) {
-                    $dbConn = env('DB_CONNECTION');
-                    if ($dbConn && str_starts_with($dbConn, 'mysql://')) {
-                        $dbUrl = $dbConn;
-                    }
-                }
-
-                return $dbUrl;
-            })(),
+            'url' => env('DB_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'laravel'),
